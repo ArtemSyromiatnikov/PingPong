@@ -1,5 +1,6 @@
 ﻿@page "/"
 @page "/games"
+@inherits GamesBase
 
 <h1>Recent games</h1>
 
@@ -12,20 +13,13 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>15 jan 8:00</td>
-            <td><span class="player-looser">Artem Syromiatnikov</span> vs. <span class="player-winner">Martin Stewart</span></td>
-            <td><span class="score-looser">8</span> : <span class="score-winner">10</span></td>
-        </tr>
-        <tr>
-            <td>15 jan 12:00</td>
-            <td><span class="player-looser">Artem Syromiatnikov</span> vs. <span class="player-winner">Martin Stewart</span></td>
-            <td><span class="score-looser">2</span> : <span class="score-winner">10</span></td>
-        </tr>
-        <tr>
-            <td>15 jan 14:15</td>
-            <td><span class="player-winner">Artem Syromiatnikov</span> vs. <span class="player-looser">Martin Stewart</span></td>
-            <td><span class="score-winner">10</span> : <span class="score-looser">3</span></td>
-        </tr>
+        @foreach (var game in Games)
+        {
+            <tr>
+                <td>@($"{game.Timestamp:dd MMM HH:mm}")</td>
+                <td><span class="@(game.Player1Result.IsWinner ? "player-winner" : "player-looser")">@game.Player1Result.FullName</span> vs. <span class="@(game.Player2Result.IsWinner ? "player-winner" : "player-looser")">@game.Player2Result.FullName</span></td>
+                <td><span class="@(game.Player1Result.IsWinner ? "score-winner" : "score-looser")">@game.Player1Result.Score</span> : <span class="@(game.Player2Result.IsWinner ? "score-winner" : "score-looser")">@game.Player2Result.Score</span></td>
+            </tr>
+        }
     </tbody>
 </table>
