@@ -9,27 +9,22 @@ namespace MyBlazorApp.Pages
 {
     public class PlayersBase: ComponentBase
     {
-        protected List<PlayerViewModel> Players { get; set; }
+        [Inject]
+        public IPlayersService PlayersService { get; set; }
+        
+        protected List<PlayerViewModel> Players { get; set; } = new List<PlayerViewModel>();
 
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-            Players = InitializePlayers();
-            return base.OnInitializedAsync();
+            Players = await InitializePlayers();
+            await base.OnInitializedAsync();
         }
 
-        private List<PlayerViewModel> InitializePlayers()
+        private async Task<List<PlayerViewModel>> InitializePlayers()
         {
-            var playerModels = DummyPlayers.Select(p => new PlayerViewModel(p)).ToList();
+            var players = await PlayersService.GetPlayerStats();
+            var playerModels = players.Select(p => new PlayerViewModel(p)).ToList();
             return playerModels;
         }
-
-        private List<PlayerStats> DummyPlayers =>
-            new List<PlayerStats>
-            {
-                new PlayerStats() { Id = 1, FirstName = "Artem", LastName = "Syromiatnikov", Wins = 1, Losses = 5 },
-                new PlayerStats() { Id = 2, FirstName = "Martin", LastName = "Stewart", Wins = 9, Losses = 1 },
-                new PlayerStats() { Id = 3, FirstName = "Professor", LastName = "McGonagall", Wins = 6, Losses = 5 },
-                new PlayerStats() { Id = 3, FirstName = "Professor", LastName = "Flitwick", Wins = 0, Losses = 0 },
-            };
     }
 }
