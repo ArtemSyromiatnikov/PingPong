@@ -8,17 +8,19 @@ namespace MyBlazorApp.Pages
     public class AddPlayerBase: ComponentBase
     {
         [Inject]
-        public IPlayersService PlayersService { get; set; }
+        private IPlayersService PlayersService { get; set; }
         
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; }
         
         
-        public AddPlayerViewModel Player { get; set; }
+        protected AddPlayerViewModel Player { get; set; }
+        protected bool IsSaving { get; set; }
         
         protected override Task OnInitializedAsync()
         {
             Player = new AddPlayerViewModel();
+            IsSaving = false;
             
             return base.OnInitializedAsync();
         }
@@ -34,10 +36,12 @@ namespace MyBlazorApp.Pages
                 Losses = 0 
             };
 
+            IsSaving = true;
             var savedPlayer = await PlayersService.CreatePlayer(newPlayer);
             NavigationManager.NavigateTo("/players");
 
             Player = new AddPlayerViewModel();
+            IsSaving = false;
         }
     }
 }

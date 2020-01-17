@@ -10,7 +10,7 @@ namespace MyBlazorApp.Pages
 {
     public class GamesBase : ComponentBase
     {
-        public List<GameViewModel> Games { get; set; }
+        protected List<GameViewModel> Games { get; set; }
 
         protected override Task OnInitializedAsync()
         {

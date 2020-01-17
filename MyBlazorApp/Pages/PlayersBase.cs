@@ -10,13 +10,17 @@ namespace MyBlazorApp.Pages
     public class PlayersBase: ComponentBase
     {
         [Inject]
-        public IPlayersService PlayersService { get; set; }
+        private IPlayersService PlayersService { get; set; }
         
         protected List<PlayerViewModel> Players { get; set; } = new List<PlayerViewModel>();
+        protected bool IsLoading { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
+            IsLoading = true;
             Players = await InitializePlayers();
+            IsLoading = false;
+
             await base.OnInitializedAsync();
         }
 

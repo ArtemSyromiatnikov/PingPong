@@ -2,8 +2,16 @@
 @inherits PlayersBase
 
 <h1>Players</h1>
-<table class="table table-sm">
-    <thead>
+@if (IsLoading)
+{
+    <div class="py-4 text-center">
+        <span><span class="oi oi-loop-circular" aria-hidden="true"></span> Loading...</span>
+    </div>
+}
+else
+{
+    <table class="table table-sm">
+        <thead>
         <tr>
             <th>Name</th>
             <th>Winrate</th>
@@ -11,8 +19,8 @@
             <th>Losses</th>
             <th>Plays</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         @foreach (var player in Players)
         {
             <tr>
@@ -23,5 +31,6 @@
                 <td>@player.Total</td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
