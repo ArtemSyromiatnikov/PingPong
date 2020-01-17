@@ -17,6 +17,7 @@
         <ValidationMessage For="@(() => Player.LastName)" class="valid-feedback"></ValidationMessage>
     </div>
     <button type="submit" class="btn btn-primary" disabled="@IsSaving">Save</button>
+    <a href="/players/" class="btn btn-outline-secondary @(IsSaving ? "disabled" : "")">Cancel</a>
     @if (IsSaving)
     {
         <span class="d-inline-block ml-2"><span class="oi oi-loop-circular" aria-hidden="true"></span> Loading...</span>
