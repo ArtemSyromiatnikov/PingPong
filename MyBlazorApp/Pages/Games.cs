@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace MyBlazorApp.Pages
 {
-    public class GamesBase : ComponentBase
+    public partial class Games
     {
-        protected List<GameViewModel> Games { get; set; }
+        private List<GameViewModel> GamesList { get; set; }
 
         protected override Task OnInitializedAsync()
         {
-            Games = InitializeGames();
+            GamesList = InitializeGames();
 
             return base.OnInitializedAsync();
         }

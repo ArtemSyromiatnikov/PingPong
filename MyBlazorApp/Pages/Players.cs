@@ -2,23 +2,22 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using MyBlazorApp.Models;
 using MyBlazorApp.ViewModels;
 
 namespace MyBlazorApp.Pages
 {
-    public class PlayersBase: ComponentBase
+    public partial class Players
     {
         [Inject]
         private IPlayersService PlayersService { get; set; }
-        
-        protected List<PlayerViewModel> Players { get; set; } = new List<PlayerViewModel>();
-        protected bool IsLoading { get; set; } = true;
+
+        private List<PlayerViewModel> PlayersList { get; set; } = new List<PlayerViewModel>();
+        private bool IsLoading { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
             IsLoading = true;
-            Players = await InitializePlayers();
+            PlayersList = await InitializePlayers();
             IsLoading = false;
 
             await base.OnInitializedAsync();

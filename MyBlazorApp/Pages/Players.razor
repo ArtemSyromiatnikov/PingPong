@@ -1,5 +1,4 @@
 ﻿@page "/players"
-@inherits PlayersBase
 
 <h1>Players</h1>
 
@@ -26,7 +25,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (var player in Players)
+        @foreach (var player in PlayersList)
         {
             <tr>
                 <td>@player.FullName</td>

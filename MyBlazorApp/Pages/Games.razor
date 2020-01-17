@@ -1,6 +1,5 @@
 ﻿@page "/"
 @page "/games"
-@inherits GamesBase
 
 <h1>Recent games</h1>
 
@@ -13,7 +12,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var game in Games)
+        @foreach (var game in GamesList)
         {
             <tr>
                 <td>@($"{game.Timestamp:dd MMM HH:mm}")</td>

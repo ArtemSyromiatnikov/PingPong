@@ -5,17 +5,17 @@ using MyBlazorApp.ViewModels;
 
 namespace MyBlazorApp.Pages
 {
-    public class AddPlayerBase: ComponentBase
+    public partial class AddPlayer
     {
         [Inject]
         private IPlayersService PlayersService { get; set; }
         
         [Inject]
         private NavigationManager NavigationManager { get; set; }
-        
-        
-        protected AddPlayerViewModel Player { get; set; }
-        protected bool IsSaving { get; set; }
+
+
+        private AddPlayerViewModel Player { get; set; }
+        private bool IsSaving { get; set; }
         
         protected override Task OnInitializedAsync()
         {
