@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyBlazorApp.Models;
 
-namespace MyBlazorApp
+namespace MyBlazorApp.Services
 {
     public class PlayersService : IPlayersService
     {
@@ -17,11 +16,19 @@ namespace MyBlazorApp
                 new PlayerStats() {Id = 4, FirstName = "Professor", LastName = "Flitwick", Wins = 0, Losses = 0},
             };
         
-        public async Task<List<PlayerStats>> GetPlayerStats()
+        public async Task<List<PlayerStats>> GetPlayers()
         {
             await Task.Delay(1000);
             
             return Players;
+        }
+
+        public async Task<PlayerStats> GetPlayerById(int playerId)
+        {
+            await Task.Delay(1000);
+
+            var player = Players.FirstOrDefault(p => p.Id == playerId);
+            return player;
         }
 
         public async Task<PlayerStats> CreatePlayer(PlayerStats player)

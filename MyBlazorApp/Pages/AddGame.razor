@@ -1,0 +1,65 @@
+﻿@page "/games/add/"
+
+<h1>New game</h1>
+
+<EditForm Model="@Game" class="needs-validation" OnValidSubmit="SaveGame">
+    <DataAnnotationsValidator />
+    @* <ValidationSummary /> *@
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="player1Id">Player 1</label>
+            @if (IsLoading)
+            {
+                <span class="form-control"><span class="oi oi-loop-circular" aria-hidden="true"></span> Loading players...</span>
+            }
+            else
+            {
+                <InputSelect id="player1Id" class="form-control" @bind-Value="@Game.Player1Id">
+                    @foreach (var player in Players)
+                    {
+                        <option value="@player.Id">@player.FullName</option>
+                    }
+                </InputSelect>
+            }
+            <ValidationMessage For="@(() => Game.Player1Id)" class="valid-feedback"></ValidationMessage>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="player1Score">Score</label>
+            <InputNumber @bind-Value="@Game.Player1Score" id="player1Score" class="form-control" placeholder="10" required></InputNumber>
+            <ValidationMessage For="@(() => Game.Player1Score)" class="valid-feedback"></ValidationMessage>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="player2Id">Player 2</label>
+            @if (IsLoading)
+            {
+                <span class="form-control"><span class="oi oi-loop-circular" aria-hidden="true"></span> Loading players...</span>
+            }
+            else
+            {
+                <InputSelect id="player2Id" class="form-control" @bind-Value="@Game.Player2Id">
+                    @foreach (var player in Players)
+                    {
+                        <option value="@player.Id">@player.FullName</option>
+                    }
+                </InputSelect>
+            }
+            <ValidationMessage For="@(() => Game.Player2Id)" class="valid-feedback"></ValidationMessage>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="player2Score">Score</label>
+            <InputNumber @bind-Value="@Game.Player2Score" id="player2Score" class="form-control" placeholder="10" required></InputNumber>
+            <ValidationMessage For="@(() => Game.Player2Score)" class="valid-feedback"></ValidationMessage>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" disabled="@(IsSaving||IsLoading)">Save</button>
+    <a href="/games/" class="btn btn-outline-secondary @(IsSaving ? "disabled" : "")">Cancel</a>
+    @if (IsSaving)
+    {
+        <span class="d-inline-block ml-2"><span class="oi oi-loop-circular" aria-hidden="true"></span> Saving...</span>
+    }
+</EditForm>

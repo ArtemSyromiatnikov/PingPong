@@ -3,15 +3,27 @@
 
 <h1>Recent games</h1>
 
-<table class="table table-sm">
-    <thead>
+<div class="my-3">
+    <a href="/games/add/" class="btn btn-outline-primary">Register a new game</a>
+</div>
+
+@if (IsLoading)
+{
+    <div class="py-4 text-center">
+        <span><span class="oi oi-loop-circular" aria-hidden="true"></span> Loading...</span>
+    </div>
+}
+else
+{
+    <table class="table table-sm">
+        <thead>
         <tr>
             <th>Time</th>
             <th>Players</th>
             <th>Score</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         @foreach (var game in GamesList)
         {
             <tr>
@@ -20,5 +32,6 @@
                 <td><span class="@(game.Player1Result.IsWinner ? "score-winner" : "score-looser")">@game.Player1Result.Score</span> : <span class="@(game.Player2Result.IsWinner ? "score-winner" : "score-looser")">@game.Player2Result.Score</span></td>
             </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}

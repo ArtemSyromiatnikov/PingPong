@@ -23,10 +23,10 @@ namespace MyBlazorApp.ViewModels
         public string WinrateCss =>
             (Total, Winrate) switch
             {
-                (0, _)                               => "winrate-na",
+                (0, _)                       => "winrate-na",
                 var (_, rate) when rate < 25 => "winrate-low",
                 var (_, rate) when rate < 75 => "winrate-avg",
-                _                                    => "winrate-high"
+                _                            => "winrate-high"
             };
         
         public string FullName => $@"{FirstName} {LastName}".Trim();

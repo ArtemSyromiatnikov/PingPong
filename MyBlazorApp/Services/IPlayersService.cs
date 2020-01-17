@@ -2,11 +2,12 @@
 using System.Threading.Tasks;
 using MyBlazorApp.Models;
 
-namespace MyBlazorApp
+namespace MyBlazorApp.Services
 {
     public interface IPlayersService
     {
-        Task<List<PlayerStats>> GetPlayerStats();
+        Task<List<PlayerStats>> GetPlayers();
+        Task<PlayerStats> GetPlayerById(int playerId);
         Task<PlayerStats> CreatePlayer(PlayerStats player);
     }
 }

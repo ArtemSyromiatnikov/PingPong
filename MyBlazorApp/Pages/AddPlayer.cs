@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using MyBlazorApp.Models;
+using MyBlazorApp.Services;
 using MyBlazorApp.ViewModels;
 
 namespace MyBlazorApp.Pages
@@ -14,17 +15,9 @@ namespace MyBlazorApp.Pages
         private NavigationManager NavigationManager { get; set; }
 
 
-        private AddPlayerViewModel Player { get; set; }
-        private bool IsSaving { get; set; }
+        private AddPlayerViewModel Player { get; set; } = new AddPlayerViewModel();
+        private bool IsSaving { get; set; } = false;
         
-        protected override Task OnInitializedAsync()
-        {
-            Player = new AddPlayerViewModel();
-            IsSaving = false;
-            
-            return base.OnInitializedAsync();
-        }
-
         protected async Task SavePlayer()
         {
             var newPlayer = new PlayerStats
@@ -39,9 +32,6 @@ namespace MyBlazorApp.Pages
             IsSaving = true;
             var savedPlayer = await PlayersService.CreatePlayer(newPlayer);
             NavigationManager.NavigateTo("/players");
-
-            Player = new AddPlayerViewModel();
-            IsSaving = false;
         }
     }
 }

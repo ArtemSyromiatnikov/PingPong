@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using MyBlazorApp.Services;
 using MyBlazorApp.ViewModels;
 
 namespace MyBlazorApp.Pages
@@ -25,7 +26,7 @@ namespace MyBlazorApp.Pages
 
         private async Task<List<PlayerViewModel>> InitializePlayers()
         {
-            var players = await PlayersService.GetPlayerStats();
+            var players = await PlayersService.GetPlayers();
             var playerModels = players.Select(p => new PlayerViewModel(p)).ToList();
             return playerModels;
         }
