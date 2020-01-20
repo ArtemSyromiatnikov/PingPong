@@ -20,13 +20,10 @@ namespace MyBlazorApp.Pages
         
         protected async Task SavePlayer()
         {
-            var newPlayer = new PlayerStats
+            var newPlayer = new CreatePlayerRequest()
             {
-                Id = 0,
                 FirstName = Player.FirstName,
                 LastName = Player.LastName,
-                Wins = 0,
-                Losses = 0 
             };
 
             IsSaving = true;

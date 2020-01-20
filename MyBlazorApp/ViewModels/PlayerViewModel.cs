@@ -1,15 +1,14 @@
-﻿using System.Diagnostics;
-using MyBlazorApp.Models;
+﻿using MyBlazorApp.Models;
 
 namespace MyBlazorApp.ViewModels
 {
     public class PlayerViewModel
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int Wins { get; set; }
-        public int Losses { get; set; }
+        public int Id { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
+        public int Wins { get; }
+        public int Losses { get; }
         
         public int Total => Wins + Losses;
 
@@ -31,7 +30,7 @@ namespace MyBlazorApp.ViewModels
         
         public string FullName => $@"{FirstName} {LastName}".Trim();
 
-        public PlayerViewModel(PlayerStats player)
+        public PlayerViewModel(PlayerInfo player)
         {
             Id = player.Id;
             FirstName = player.FirstName;

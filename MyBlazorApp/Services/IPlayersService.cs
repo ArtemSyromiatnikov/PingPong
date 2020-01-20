@@ -6,8 +6,8 @@ namespace MyBlazorApp.Services
 {
     public interface IPlayersService
     {
-        Task<List<PlayerStats>> GetPlayers();
-        Task<PlayerStats> GetPlayerById(int playerId);
-        Task<PlayerStats> CreatePlayer(PlayerStats player);
+        Task<List<PlayerInfo>> GetPlayers();
+        Task<PlayerInfo> GetPlayerById(int playerId);
+        Task<PlayerInfo> CreatePlayer(CreatePlayerRequest player);
     }
 }

@@ -9,9 +9,22 @@ namespace MyBlazorApp.Models
     {
         public int Id { get; set; }
         public DateTime Timestamp { get; set; }
-        public Player Player1 { get; set; }
-        public Player Player2 { get; set; }
-        public int Player1Score { get; set; }
-        public int Player2Score { get; set; }
+        public PlayerResult Player1Result { get; set; }
+        public PlayerResult Player2Result { get; set; }
     }
+
+    public class PlayerResult
+    {
+        public Player Player { get; set; }
+        public int Score { get; set; }
+        public bool IsWinner { get; set; }
+    }
+    
+    public class Player
+    {
+        public int    Id        { get; set; }
+        public string FirstName { get; set; }
+        public string LastName  { get; set; }
+    }
+
 }

@@ -18,25 +18,24 @@ namespace MyBlazorApp.ViewModels
             Id = game.Id;
             Timestamp = game.Timestamp;
             
-            bool isPlayer1Winner = game.Player1Score > game.Player2Score;
-            Player1Result = new PlayerResultViewModel(game.Player1, game.Player1Score, isPlayer1Winner);
-            Player2Result = new PlayerResultViewModel(game.Player2, game.Player2Score, !isPlayer1Winner);
+            Player1Result = new PlayerResultViewModel(game.Player1Result);
+            Player2Result = new PlayerResultViewModel(game.Player2Result);
         }
     }
 
     public class PlayerResultViewModel
     {
-        public PlayerResultViewModel(Player player, int score, bool isWinner)
+        public PlayerResultViewModel(PlayerResult playerResult)
         {
-            PlayerId = player.Id;
-            FullName = $"{player.FirstName} {player.LastName}".Trim();
-            Score = score;
-            IsWinner = isWinner;
+            PlayerId = playerResult.Player.Id;
+            FullName = $"{playerResult.Player.FirstName} {playerResult.Player.LastName}".Trim();
+            Score    = playerResult.Score;
+            IsWinner = playerResult.IsWinner;
         }
 
-        public int PlayerId { get; set; }
-        public string FullName { get; set; }
-        public int Score { get; set; }
-        public bool IsWinner { get; set; }
+        public int PlayerId { get; }
+        public string FullName { get; }
+        public int Score { get; }
+        public bool IsWinner { get; }
     }
 }
