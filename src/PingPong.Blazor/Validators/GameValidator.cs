@@ -1,8 +1,8 @@
 ﻿using System;
 using FluentValidation;
-using MyBlazorApp.ViewModels;
+using PingPong.Blazor.ViewModels;
 
-namespace MyBlazorApp.Validators
+namespace PingPong.Blazor.Validators
 {
     public class GameValidator: AbstractValidator<AddGameViewModel>
     {

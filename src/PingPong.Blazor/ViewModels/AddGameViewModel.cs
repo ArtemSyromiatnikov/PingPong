@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyBlazorApp.ViewModels
+namespace PingPong.Blazor.ViewModels
 {
     public class AddGameViewModel
     {

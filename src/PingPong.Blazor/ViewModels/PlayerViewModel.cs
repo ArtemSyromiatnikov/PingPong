@@ -1,6 +1,6 @@
-﻿using MyBlazorApp.Models;
+﻿using PingPong.Blazor.Models;
 
-namespace MyBlazorApp.ViewModels
+namespace PingPong.Blazor.ViewModels
 {
     public class PlayerViewModel
     {

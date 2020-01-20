@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Components;
-using MyBlazorApp.Models;
-using MyBlazorApp.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MyBlazorApp.Services;
+using Microsoft.AspNetCore.Components;
+using PingPong.Blazor.Services;
+using PingPong.Blazor.ViewModels;
 
-namespace MyBlazorApp.Pages
+namespace PingPong.Blazor.Pages
 {
     public partial class Games
     {

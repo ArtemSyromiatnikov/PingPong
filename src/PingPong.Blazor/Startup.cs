@@ -1,15 +1,13 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyBlazorApp.Services;
-using MyBlazorApp.Validators;
-using MyBlazorApp.ViewModels;
 using PeterLeslieMorris.Blazor.Validation;
+using PingPong.Blazor.Services;
+using PingPong.Blazor.Validators;
 
-namespace MyBlazorApp
+namespace PingPong.Blazor
 {
     public class Startup
     {

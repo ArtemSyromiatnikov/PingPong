@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MyBlazorApp.Models;
+using PingPong.Blazor.Models;
 
-namespace MyBlazorApp.Services
+namespace PingPong.Blazor.Services
 {
     public class GamesService : IGamesService
     {

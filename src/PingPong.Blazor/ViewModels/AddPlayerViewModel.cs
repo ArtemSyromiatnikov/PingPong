@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyBlazorApp.ViewModels
+namespace PingPong.Blazor.ViewModels
 {
     public class AddPlayerViewModel
     {

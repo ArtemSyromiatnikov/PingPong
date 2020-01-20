@@ -1,10 +1,7 @@
-﻿using MyBlazorApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using PingPong.Blazor.Models;
 
-namespace MyBlazorApp.ViewModels
+namespace PingPong.Blazor.ViewModels
 {
     public class GameViewModel
     {

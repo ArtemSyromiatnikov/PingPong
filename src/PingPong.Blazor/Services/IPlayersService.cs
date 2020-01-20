@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyBlazorApp.Models;
+using PingPong.Blazor.Models;
 
-namespace MyBlazorApp.Services
+namespace PingPong.Blazor.Services
 {
     public interface IPlayersService
     {

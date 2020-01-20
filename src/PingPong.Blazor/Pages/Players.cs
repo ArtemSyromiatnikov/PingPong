@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using MyBlazorApp.Services;
-using MyBlazorApp.ViewModels;
+using PingPong.Blazor.Services;
+using PingPong.Blazor.ViewModels;
 
-namespace MyBlazorApp.Pages
+namespace PingPong.Blazor.Pages
 {
     public partial class Players
     {

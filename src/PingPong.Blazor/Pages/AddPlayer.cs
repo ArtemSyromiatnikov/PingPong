@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using MyBlazorApp.Models;
-using MyBlazorApp.Services;
-using MyBlazorApp.ViewModels;
+using PingPong.Blazor.Models;
+using PingPong.Blazor.Services;
+using PingPong.Blazor.ViewModels;
 
-namespace MyBlazorApp.Pages
+namespace PingPong.Blazor.Pages
 {
     public partial class AddPlayer
     {

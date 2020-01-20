@@ -1,4 +1,4 @@
-using MyBlazorApp.Validators;
+using PingPong.Blazor.Validators;
 using Xunit;
 
 namespace PingPong.UnitTests

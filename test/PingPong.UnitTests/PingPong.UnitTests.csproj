@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\MyBlazorApp\MyBlazorApp.csproj" />
+      <ProjectReference Include="..\..\src\PingPong.Blazor\PingPong.Blazor.csproj" />
     </ItemGroup>
 
 </Project>
