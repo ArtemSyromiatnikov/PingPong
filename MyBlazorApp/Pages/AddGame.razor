@@ -2,8 +2,9 @@
 
 <h1>New game</h1>
 
-<EditForm Model="@Game" class="needs-validation" OnValidSubmit="SaveGame">
-    <DataAnnotationsValidator />
+<EditForm EditContext="@EditContext" class="needs-validation" OnValidSubmit="SaveGame">
+    <PeterLeslieMorris.Blazor.Validation.Validate />
+    @* <DataAnnotationsValidator /> *@
     @* <ValidationSummary /> *@
 
     <div class="form-row">
@@ -26,7 +27,7 @@
         </div>
         <div class="form-group col-md-2">
             <label for="player1Score">Score</label>
-            <InputNumber @bind-Value="@Game.Player1Score" id="player1Score" class="form-control" placeholder="10" required></InputNumber>
+            <InputNumber @bind-Value="@Game.Player1Score" id="player1Score" class="form-control" placeholder="11" required></InputNumber>
             <ValidationMessage For="@(() => Game.Player1Score)" class="valid-feedback"></ValidationMessage>
         </div>
     </div>
@@ -51,7 +52,7 @@
         </div>
         <div class="form-group col-md-2">
             <label for="player2Score">Score</label>
-            <InputNumber @bind-Value="@Game.Player2Score" id="player2Score" class="form-control" placeholder="10" required></InputNumber>
+            <InputNumber @bind-Value="@Game.Player2Score" id="player2Score" class="form-control" placeholder="11" required></InputNumber>
             <ValidationMessage For="@(() => Game.Player2Score)" class="valid-feedback"></ValidationMessage>
         </div>
     </div>

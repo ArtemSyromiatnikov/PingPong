@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="PeterLeslieMorris.Blazor.FluentValidation" Version="1.1.0-dotnet3.1.0-preview4.19579.2" />
+  </ItemGroup>
+
 </Project>

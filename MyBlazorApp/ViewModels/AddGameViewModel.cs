@@ -1,19 +1,37 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace MyBlazorApp.ViewModels
 {
     public class AddGameViewModel
     {
-        [Required(ErrorMessage = "Select Player 1")]
-        public string Player1Id { get; set; }
+        public event EventHandler<string> OnPlayer1Changed;
+        public event EventHandler<int> OnPlayer1ScoreChanged;
         
-        [Range(0, 100)]
-        public int Player1Score { get; set; }
         
-        [Required(ErrorMessage = "Select Player 2")]
+        private string _player1Id;
+        public string Player1Id
+        {
+            get => _player1Id;
+            set
+            {
+                _player1Id = value;
+                OnPlayer1Changed?.Invoke(this, _player1Id);
+            }
+        }
+
+        private int _player1Score;
+        public int Player1Score
+        {
+            get => _player1Score;
+            set
+            {
+                _player1Score = value;
+                OnPlayer1ScoreChanged?.Invoke(this, _player1Score);
+            }
+        }
+
         public string Player2Id { get; set; }
         
-        [Range(0, 100)]
         public int Player2Score { get; set; }
     }
 }

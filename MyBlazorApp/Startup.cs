@@ -1,9 +1,13 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBlazorApp.Services;
+using MyBlazorApp.Validators;
+using MyBlazorApp.ViewModels;
+using PeterLeslieMorris.Blazor.Validation;
 
 namespace MyBlazorApp
 {
@@ -25,6 +29,7 @@ namespace MyBlazorApp
             
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddFormValidation(config => config.AddFluentValidation(typeof(GameValidator).Assembly));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
