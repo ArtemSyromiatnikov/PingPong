@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PingPong.Sdk.Models
 {
-    public class Page<T> : IList<T>
+    public class Page<T>
     {
         public long    TotalItems { get; set; }
         public List<T> Items      { get; set; }
@@ -20,7 +20,7 @@ namespace PingPong.Sdk.Models
             Items      = items;
         }
 
-        public int  IndexOf(T item)  => Items.IndexOf(item);
+        /*public int  IndexOf(T item)  => Items.IndexOf(item);
         public bool Contains(T item) => Items.Contains(item);
 
         public void Add(T item)                       => Items.Add(item);
@@ -40,6 +40,6 @@ namespace PingPong.Sdk.Models
         public bool IsReadOnly => false;
 
         public IEnumerator<T>   GetEnumerator() => Items.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();*/
     }
 }

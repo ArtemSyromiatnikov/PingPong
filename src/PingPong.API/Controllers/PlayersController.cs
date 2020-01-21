@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PingPong.API.Services;
 using PingPong.Sdk.Models;
 using PingPong.Sdk.Models.Players;
 
@@ -13,49 +14,34 @@ namespace PingPong.API.Controllers
     [Route("players")]
     public class PlayersController : ControllerBase
     {
+        private readonly IPlayersService _playersService;
         private readonly ILogger<PlayersController> _logger;
 
-        public PlayersController(ILogger<PlayersController> logger)
+        public PlayersController(IPlayersService playersService, ILogger<PlayersController> logger)
         {
+            _playersService = playersService;
             _logger = logger;
         }
 
         [HttpGet]
-        public Page<PlayerInfo> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        public async Task<Page<PlayerInfo>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            return new Page<PlayerInfo>(18,
-                new List<PlayerInfo>
-                {
-                    new PlayerInfo()
-                        {Id = 1, FirstName = "Artem", LastName = "Syromiatnikov", Wins = 1, Losses = 5},
-                    new PlayerInfo()
-                        {Id = 2, FirstName = "Martin", LastName = "Stewart", Wins = 9, Losses = 1},
-                    new PlayerInfo()
-                        {Id = 3, FirstName = "Professor", LastName = "McGonagall", Wins = 6, Losses = 5},
-                    new PlayerInfo()
-                        {Id = 4, FirstName = "Professor", LastName = "Flitwick", Wins = 0, Losses = 0},
-                }
-            );
+            var players = await _playersService.GetPlayers(page, pageSize);
+            return players;
         }
         
         [HttpGet("/players/{id}")]
-        public PlayerInfo Get([FromRoute] int id)
+        public async Task<PlayerInfo> Get([FromRoute] int id)
         {
-            return new PlayerInfo() {Id = 1, FirstName = "Artem", LastName = "Syromiatnikov", Wins = 1, Losses = 5};
+            var player = await _playersService.GetPlayerById(id);
+            return player;
         }
 
         [HttpPost]
-        public PlayerInfo Create(CreatePlayerRequest request)
+        public async Task<PlayerInfo> Create(CreatePlayerRequest request)
         {
-            var player = new PlayerInfo
-            {
-                Id        = 7,
-                FirstName = request.FirstName,
-                LastName  = request.LastName,
-                Wins      = 0,
-                Losses    = 0
-            };
-
+            // TODO: Input validation
+            var player = await _playersService.CreatePlayer(request); 
             return player;
         }
     }

@@ -11,7 +11,7 @@ namespace PingPong.Blazor.ViewModels
         public int Wins { get; }
         public int Losses { get; }
         
-        public int Total => Wins + Losses;
+        public int Total { get; }
 
         public bool HasWinrate => Total > 0;
         
@@ -38,6 +38,7 @@ namespace PingPong.Blazor.ViewModels
             LastName = player.LastName;
             Wins = player.Wins;
             Losses = player.Losses;
+            Total = player.Total;
         }
     }
 }
