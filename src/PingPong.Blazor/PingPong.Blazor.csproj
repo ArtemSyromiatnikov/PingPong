@@ -8,4 +8,8 @@
     <PackageReference Include="PeterLeslieMorris.Blazor.FluentValidation" Version="1.1.0-dotnet3.1.0-preview4.19579.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PingPong.Sdk\PingPong.Sdk.csproj" />
+  </ItemGroup>
+
 </Project>

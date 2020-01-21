@@ -3,9 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using PingPong.Blazor.Models;
 using PingPong.Blazor.Services;
 using PingPong.Blazor.ViewModels;
+using PingPong.Sdk;
+using PingPong.Sdk.Models.Games;
 
 namespace PingPong.Blazor.Pages
 {

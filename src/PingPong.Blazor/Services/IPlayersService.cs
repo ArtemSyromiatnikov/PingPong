@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using PingPong.Blazor.Models;
+using PingPong.Sdk;
+using PingPong.Sdk.Models.Players;
 
 namespace PingPong.Blazor.Services
 {

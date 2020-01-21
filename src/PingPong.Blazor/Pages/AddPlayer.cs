@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using PingPong.Blazor.Models;
 using PingPong.Blazor.Services;
 using PingPong.Blazor.ViewModels;
+using PingPong.Sdk;
+using PingPong.Sdk.Models.Players;
 
 namespace PingPong.Blazor.Pages
 {

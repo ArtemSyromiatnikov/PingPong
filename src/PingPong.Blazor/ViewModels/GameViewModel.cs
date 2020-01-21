@@ -1,5 +1,6 @@
 ﻿using System;
-using PingPong.Blazor.Models;
+using PingPong.Sdk;
+using PingPong.Sdk.Models.Games;
 
 namespace PingPong.Blazor.ViewModels
 {

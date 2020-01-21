@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PingPong.Blazor.Models
+namespace PingPong.Sdk.Models.Games
 {
     public class Game
     {
@@ -23,5 +23,4 @@ namespace PingPong.Blazor.Models
         public string FirstName { get; set; }
         public string LastName  { get; set; }
     }
-
 }

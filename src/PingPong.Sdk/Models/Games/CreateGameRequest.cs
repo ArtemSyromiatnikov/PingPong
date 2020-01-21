@@ -1,4 +1,4 @@
-﻿namespace PingPong.Blazor.Models
+﻿namespace PingPong.Sdk.Models.Games
 {
     public class CreateGameRequest
     {
