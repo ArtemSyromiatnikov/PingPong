@@ -17,7 +17,7 @@ namespace PingPong.API.Services
             _dataContext = dataContext;
         }
 
-        public async Task<Page<Game>> GetGames(int page = 1, int pageSize = 10)
+        public async Task<Page<GameDto>> GetGames(int page = 1, int pageSize = 10)
         {
             if (page < 1) page         = 1;
             if (pageSize < 1) pageSize = 1;
@@ -34,11 +34,11 @@ namespace PingPong.API.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            var result = new Page<Game>(total, Mapper.Map(games));
+            var result = new Page<GameDto>(total, Mapper.Map(games));
             return result;
         }
 
-        public async Task<Game> GetGame(int id)
+        public async Task<GameDto> GetGame(int id)
         {
             var game = await _dataContext.Games
                 .Where(g => g.Id == id)
@@ -50,7 +50,7 @@ namespace PingPong.API.Services
             return result;
         }
 
-        public async Task<Game> CreateGame(CreateGameRequest request)
+        public async Task<GameDto> CreateGame(CreateGameRequestDto request)
         {
             var player1 = await _dataContext.Players.FirstOrDefaultAsync(p => p.Id == request.Player1Id);
             var player2 = await _dataContext.Players.FirstOrDefaultAsync(p => p.Id == request.Player2Id);

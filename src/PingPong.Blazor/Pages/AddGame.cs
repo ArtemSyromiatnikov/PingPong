@@ -59,7 +59,7 @@ namespace PingPong.Blazor.Pages
 
         private async Task SaveGame()
         {
-            var newGameDto = new CreateGameRequest
+            var newGameDto = new CreateGameRequestDto
             {
                 Player1Id    = int.Parse(Game.Player1Id),
                 Player2Id    = int.Parse(Game.Player2Id),

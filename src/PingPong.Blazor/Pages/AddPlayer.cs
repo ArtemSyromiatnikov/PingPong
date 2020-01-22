@@ -21,7 +21,7 @@ namespace PingPong.Blazor.Pages
         
         protected async Task SavePlayer()
         {
-            var newPlayer = new CreatePlayerRequest()
+            var newPlayer = new CreatePlayerRequestDto()
             {
                 FirstName = Player.FirstName,
                 LastName = Player.LastName,

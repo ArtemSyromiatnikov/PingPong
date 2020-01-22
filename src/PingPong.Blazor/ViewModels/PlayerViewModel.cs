@@ -31,7 +31,7 @@ namespace PingPong.Blazor.ViewModels
         
         public string FullName => $@"{FirstName} {LastName}".Trim();
 
-        public PlayerViewModel(PlayerInfo player)
+        public PlayerViewModel(PlayerInfoDto player)
         {
             Id = player.Id;
             FirstName = player.FirstName;

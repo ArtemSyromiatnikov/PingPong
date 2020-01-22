@@ -24,21 +24,21 @@ namespace PingPong.API.Controllers
         }
 
         [HttpGet]
-        public async Task<Page<PlayerInfo>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        public async Task<Page<PlayerInfoDto>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var players = await _playersService.GetPlayers(page, pageSize);
             return players;
         }
         
         [HttpGet("/players/{id}")]
-        public async Task<PlayerInfo> Get([FromRoute] int id)
+        public async Task<PlayerInfoDto> Get([FromRoute] int id)
         {
             var player = await _playersService.GetPlayerById(id);
             return player;
         }
 
         [HttpPost]
-        public async Task<PlayerInfo> Create(CreatePlayerRequest request)
+        public async Task<PlayerInfoDto> Create(CreatePlayerRequestDto request)
         {
             // TODO: Input validation
             var player = await _playersService.CreatePlayer(request); 

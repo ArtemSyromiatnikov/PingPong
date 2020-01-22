@@ -7,8 +7,8 @@ namespace PingPong.API.Services
 {
     public interface IGamesService
     {
-        Task<Page<Game>> GetGames(int page = 1, int pageSize = 10);
-        Task<Game> GetGame(int id);
-        Task<Game> CreateGame(CreateGameRequest request);
+        Task<Page<GameDto>> GetGames(int page = 1, int pageSize = 10);
+        Task<GameDto> GetGame(int id);
+        Task<GameDto> CreateGame(CreateGameRequestDto request);
     }
 }

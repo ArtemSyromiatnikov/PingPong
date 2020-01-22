@@ -6,8 +6,8 @@ namespace PingPong.API.Services
 {
     public interface IPlayersService
     {
-        Task<Page<PlayerInfo>> GetPlayers(int page, int pageSize);
-        Task<PlayerInfo> GetPlayerById(int playerId);
-        Task<PlayerInfo> CreatePlayer(CreatePlayerRequest player);
+        Task<Page<PlayerInfoDto>> GetPlayers(int page, int pageSize);
+        Task<PlayerInfoDto> GetPlayerById(int playerId);
+        Task<PlayerInfoDto> CreatePlayer(CreatePlayerRequestDto player);
     }
 }

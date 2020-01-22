@@ -19,7 +19,7 @@ namespace PingPong.API.Services
             _dataContext = dataContext;
         }
         
-        public async Task<Page<PlayerInfo>> GetPlayers(int page = 1, int pageSize = 10)
+        public async Task<Page<PlayerInfoDto>> GetPlayers(int page = 1, int pageSize = 10)
         {
             if (page < 1) page = 1;
             if (pageSize < 1) pageSize = 1;
@@ -35,11 +35,11 @@ namespace PingPong.API.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            var result = new Page<PlayerInfo>(total, Mapper.Map(players));
+            var result = new Page<PlayerInfoDto>(total, Mapper.Map(players));
             return result;
         }
 
-        public async Task<PlayerInfo> GetPlayerById(int playerId)
+        public async Task<PlayerInfoDto> GetPlayerById(int playerId)
         {
             var player = await _dataContext.Players
                 .Where(p => p.Id == playerId)
@@ -49,7 +49,7 @@ namespace PingPong.API.Services
             return result;
         }
 
-        public async Task<PlayerInfo> CreatePlayer(CreatePlayerRequest request)
+        public async Task<PlayerInfoDto> CreatePlayer(CreatePlayerRequestDto request)
         {
             var player = new Player
             {

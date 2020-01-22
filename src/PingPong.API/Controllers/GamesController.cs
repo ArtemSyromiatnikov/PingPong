@@ -25,14 +25,14 @@ namespace PingPong.API.Controllers
         }
 
         [HttpGet]
-        public async Task<Page<Game>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        public async Task<Page<GameDto>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var games = await _gamesService.GetGames(page, pageSize);
             return games;
         }
 
         [HttpPost]
-        public async Task<Game> Create(CreateGameRequest request)
+        public async Task<GameDto> Create(CreateGameRequestDto request)
         {
             var game = await _gamesService.CreateGame(request);
             return game;

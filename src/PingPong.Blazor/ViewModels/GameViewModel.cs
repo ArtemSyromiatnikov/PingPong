@@ -11,7 +11,7 @@ namespace PingPong.Blazor.ViewModels
         public PlayerResultViewModel Player1Result { get; set; }
         public PlayerResultViewModel Player2Result { get; set; }
 
-        public GameViewModel(Game game)
+        public GameViewModel(GameDto game)
         {
             Id = game.Id;
             Timestamp = game.Timestamp;
@@ -23,10 +23,10 @@ namespace PingPong.Blazor.ViewModels
 
     public class PlayerResultViewModel
     {
-        public PlayerResultViewModel(PlayerResult playerResult)
+        public PlayerResultViewModel(PlayerResultDto playerResult)
         {
-            PlayerId = playerResult.Player.Id;
-            FullName = $"{playerResult.Player.FirstName} {playerResult.Player.LastName}".Trim();
+            PlayerId = playerResult.PlayerDto.Id;
+            FullName = $"{playerResult.PlayerDto.FirstName} {playerResult.PlayerDto.LastName}".Trim();
             Score    = playerResult.Score;
             IsWinner = playerResult.IsWinner;
         }

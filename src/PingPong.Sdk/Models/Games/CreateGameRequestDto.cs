@@ -1,6 +1,6 @@
 ﻿namespace PingPong.Sdk.Models.Games
 {
-    public class CreateGameRequest
+    public class CreateGameRequestDto
     {
         public int Player1Id { get; set; }
         

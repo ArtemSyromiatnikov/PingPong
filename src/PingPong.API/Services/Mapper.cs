@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PingPong.API.Database.Models;
+using PingPong.Sdk.Models.Games;
 using PingPong.Sdk.Models.Players;
-using Game = PingPong.Sdk.Models.Games.Game;
-using PlayerResult = PingPong.Sdk.Models.Games.PlayerResult;
-using Player = PingPong.Sdk.Models.Games.Player;
 
 namespace PingPong.API.Services
 {
@@ -13,14 +11,14 @@ namespace PingPong.API.Services
     /// </summary>
     public static class Mapper
     {
-        public static List<PlayerInfo> Map(List<Database.Models.Player> players)
+        public static List<PlayerInfoDto> Map(List<Player> players)
         {
             return players?.Select(MapPlayerInfo).ToList();
         }
 
-        public static PlayerInfo MapPlayerInfo(Database.Models.Player player)
+        public static PlayerInfoDto MapPlayerInfo(Player player)
         {
-            return new PlayerInfo
+            return new PlayerInfoDto
             {
                 Id        = player.Id,
                 FirstName = player.FirstName,
@@ -31,13 +29,13 @@ namespace PingPong.API.Services
             };
         }
 
-        public static List<Game> Map(List<Database.Models.Game> games)
+        public static List<GameDto> Map(List<Game> games)
         {
             return games?.Select(Map).ToList();
         }
-        public static Game Map(Database.Models.Game game)
+        public static GameDto Map(Game game)
         {
-            return new Game
+            return new GameDto
             {
                 Id            = game.Id,
                 Timestamp     = game.Created,
@@ -46,18 +44,18 @@ namespace PingPong.API.Services
             };
         }
 
-        private static PlayerResult Map(Database.Models.PlayerResult gamePlayerResult)
+        private static PlayerResultDto Map(PlayerResult gamePlayerResult)
         {
-            return new PlayerResult
+            return new PlayerResultDto
             {
-                Player   = MapPlayer(gamePlayerResult.Player),
+                PlayerDto   = MapPlayer(gamePlayerResult.Player),
                 Score    = gamePlayerResult.Score,
                 IsWinner = gamePlayerResult.IsWinner
             };
         }
-        public static Player MapPlayer(Database.Models.Player player)
+        public static PlayerDto MapPlayer(Player player)
         {
-            return new Player
+            return new PlayerDto
             {
                 Id        = player.Id,
                 FirstName = player.FirstName,

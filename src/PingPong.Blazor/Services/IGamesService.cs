@@ -6,7 +6,7 @@ namespace PingPong.Blazor.Services
 {
     public interface IGamesService
     {
-        Task<List<Game>> GetGames();
-        Task<Game> CreateGame(CreateGameRequest newGameRequest);
+        Task<List<GameDto>> GetGames();
+        Task<GameDto> CreateGame(CreateGameRequestDto newGameRequest);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace PingPong.Sdk.Models.Players
 {
-    public class PlayerInfo
+    public class PlayerInfoDto
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
