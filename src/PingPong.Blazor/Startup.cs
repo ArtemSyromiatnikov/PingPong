@@ -1,11 +1,12 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PeterLeslieMorris.Blazor.Validation;
-using PingPong.Blazor.Services;
 using PingPong.Blazor.Validators;
+using PingPong.Sdk;
 
 namespace PingPong.Blazor
 {
@@ -22,9 +23,9 @@ namespace PingPong.Blazor
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IPlayersService, PlayersService>();
-            services.AddScoped<IGamesService, GamesService>();
-            
+            services.AddHttpClient<IApiClient, ApiClient>(options =>
+                options.BaseAddress = new Uri(Configuration["PingPongApi"]));
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddFormValidation(config => config.AddFluentValidation(typeof(GameValidator).Assembly));

@@ -2,18 +2,17 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using PingPong.Blazor.Services;
 using PingPong.Blazor.ViewModels;
+using PingPong.Sdk;
 
 namespace PingPong.Blazor.Pages
 {
     public partial class Games
     {
-        [Inject]
-        private IGamesService GamesService { get; set; }
-        
+        [Inject] private IApiClient ApiClient { get; set; }
+
         private List<GameViewModel> GamesList { get; set; } = new List<GameViewModel>();
-        private bool IsLoading { get; set; } = true;
+        private bool                IsLoading { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
@@ -26,8 +25,8 @@ namespace PingPong.Blazor.Pages
 
         private async Task<List<GameViewModel>> InitializeGames()
         {
-            var games = await GamesService.GetGames();
-            var viewModels = games.Select(g => new GameViewModel(g)).ToList();
+            var games = await ApiClient.Games.GetGames(1, 1000);
+            var viewModels = games.Items.Select(g => new GameViewModel(g)).ToList();
             return viewModels;
         }
     }

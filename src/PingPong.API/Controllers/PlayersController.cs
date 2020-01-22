@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PingPong.API.Services;
@@ -14,13 +11,13 @@ namespace PingPong.API.Controllers
     [Route("players")]
     public class PlayersController : ControllerBase
     {
-        private readonly IPlayersService _playersService;
+        private readonly IPlayersService            _playersService;
         private readonly ILogger<PlayersController> _logger;
 
         public PlayersController(IPlayersService playersService, ILogger<PlayersController> logger)
         {
             _playersService = playersService;
-            _logger = logger;
+            _logger         = logger;
         }
 
         [HttpGet]
@@ -29,7 +26,7 @@ namespace PingPong.API.Controllers
             var players = await _playersService.GetPlayers(page, pageSize);
             return players;
         }
-        
+
         [HttpGet("/players/{id}")]
         public async Task<PlayerInfoDto> Get([FromRoute] int id)
         {
@@ -41,7 +38,7 @@ namespace PingPong.API.Controllers
         public async Task<PlayerInfoDto> Create(CreatePlayerRequestDto request)
         {
             // TODO: Input validation
-            var player = await _playersService.CreatePlayer(request); 
+            var player = await _playersService.CreatePlayer(request);
             return player;
         }
     }
