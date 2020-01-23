@@ -1,0 +1,36 @@
+﻿
+@if (ShowWhenOnlyOnePage || TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item @(HasPrevPage ? "" : "disabled")">
+                <a class="page-link" href="javascript:void(0);" @onclick="@(() => OnPageButtonClicked(PrevPage))">Previous</a>
+            </li>
+            @*         @if (HasEllipsisBefore) *@
+            @*         { *@
+            @*             <li class="page-item"><a class="page-link" href="/players?page=1&pageSize=@PageSize" @onclick="@(() => OnPageButtonClicked(1))">1</a></li> *@
+            @*             <li class="page-item disabled"> *@
+            @*                 <span class="page-link">&hellip;</span> *@
+            @*             </li> *@
+            @*         } *@
+            @for (int page = 1; page <= TotalPages; page++)
+            {
+                int pageIndex = page;
+                <li class="page-item @(Page == pageIndex ? "active" : "")">
+                    <a class="page-link" href="javascript:void(0);" @onclick="@(() => OnPageButtonClicked(pageIndex))">@pageIndex</a>
+                </li>
+            }
+            @*         @if (HasEllipsisAfter) *@
+            @*         { *@
+            @*             <li class="page-item disabled"> *@
+            @*                 <span class="page-link">&hellip;</span> *@
+            @*             </li> *@
+            @*             <li class="page-item"><a class="page-link" href="/players?page=@TotalPages&pageSize=@PageSize" @onclick="@(() => OnPageButtonClicked(TotalPages))">@TotalPages</a></li> *@
+            @*         } *@
+            <li class="page-item @(HasNextPage ? "" : "disabled")">
+                <a class="page-link" href="javascript:void(0);" @onclick="@(() => OnPageButtonClicked(NextPage))">Next</a>
+            </li>
+        </ul>
+    </nav>
+}

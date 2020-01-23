@@ -14,27 +14,38 @@
 }
 else
 {
-    <table class="table table-sm">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Winrate</th>
-            <th>Wins</th>
-            <th>Losses</th>
-            <th>Plays</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var player in PlayersList)
-        {
+    if (PlayersList.Count == 0)
+    {
+        <div class="py-4 text-center">No players have been found.</div>
+    }
+    else
+    {
+        <table class="table table-sm">
+            <thead>
             <tr>
-                <td>@player.FullName</td>
-                <td><span class="@player.WinrateCss">@(player.HasWinrate ? $"{player.Winrate:#.##}%" : "N/A")</span></td>
-                <td>@player.Wins</td>
-                <td>@player.Losses</td>
-                <td>@player.Total</td>
+                <th>Name</th>
+                <th>Winrate</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Plays</th>
             </tr>
-        }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach (var player in PlayersList)
+            {
+                <tr>
+                    <td>@player.FullName</td>
+                    <td>
+                        <span class="@player.WinrateCss">@(player.HasWinrate ? $"{player.Winrate:0.##}%" : "N/A")</span>
+                    </td>
+                    <td>@player.Wins</td>
+                    <td>@player.Losses</td>
+                    <td>@player.Total</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <Pagination Page="@Page" PageSize="@PageSize" TotalItems="@TotalItems" OnPageChanged="HandlePageChanged"/>
+    }
 }
