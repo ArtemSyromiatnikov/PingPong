@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,9 @@ namespace PingPong.API
             services.AddScoped<IPlayersService, PlayersService>();
             services.AddScoped<IGamesService, GamesService>();
 
+            services.AddCors(options =>
+                options.AddDefaultPolicy(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
             services.AddControllers();
             services.AddSwaggerDocument();
         }
@@ -43,7 +47,7 @@ namespace PingPong.API
 
             app.UseOpenApi();    // default route: /swagger/v1/swagger.json
             app.UseSwaggerUi3(); // default route: /swagger
-            //app.UseReDoc();       // default route: /swagger
+            app.UseCors();
 
             app.UseAuthorization();
 

@@ -39,7 +39,7 @@ namespace PingPong.Sdk.Helpers
         public async Task<TResponse> PostAsync<TResponse>(string url, object payload)
         {
             var requestBody = JsonSerializer.Serialize(payload);
-            var content = new StringContent(requestBody, Encoding.Unicode, "application/json");
+            var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(url, content);
             if (response.IsSuccessStatusCode)

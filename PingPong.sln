@@ -3,19 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Blazor", "src\PingPong.Blazor\PingPong.Blazor.csproj", "{3417C19A-5C5B-4AE7-B9CE-282CC00C447B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPong.Blazor", "src\PingPong.Blazor\PingPong.Blazor.csproj", "{3417C19A-5C5B-4AE7-B9CE-282CC00C447B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.UnitTests", "test\PingPong.UnitTests\PingPong.UnitTests.csproj", "{C00D51BF-4E20-437A-880F-0B3336860265}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPong.UnitTests", "test\PingPong.UnitTests\PingPong.UnitTests.csproj", "{C00D51BF-4E20-437A-880F-0B3336860265}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FAB03D6A-C1FC-45A6-8845-A5D31E78A840}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7A633616-4E07-49C1-BCDD-7B03D3E630CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.API", "src\PingPong.API\PingPong.API.csproj", "{282E460F-9ACC-40A1-B841-3223F8C8D9E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPong.API", "src\PingPong.API\PingPong.API.csproj", "{282E460F-9ACC-40A1-B841-3223F8C8D9E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Sdk", "src\PingPong.Sdk\PingPong.Sdk.csproj", "{03BA2B28-45B8-4DF0-A6E9-B3A610642BEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPong.Sdk", "src\PingPong.Sdk\PingPong.Sdk.csproj", "{03BA2B28-45B8-4DF0-A6E9-B3A610642BEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Blazor.ServerApp", "src\PingPong.Blazor.ServerApp\PingPong.Blazor.ServerApp.csproj", "{AFE54CD8-8D55-4658-AE20-02830799E2B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PingPong.Blazor.ServerApp", "src\PingPong.Blazor.ServerApp\PingPong.Blazor.ServerApp.csproj", "{AFE54CD8-8D55-4658-AE20-02830799E2B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.Blazor.ClientApp", "src\PingPong.Blazor.ClientApp\PingPong.Blazor.ClientApp.csproj", "{6D4CB8CA-7579-4B59-8EA0-2C13F6777044}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,18 +45,23 @@ Global
 		{AFE54CD8-8D55-4658-AE20-02830799E2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFE54CD8-8D55-4658-AE20-02830799E2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFE54CD8-8D55-4658-AE20-02830799E2B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D4CB8CA-7579-4B59-8EA0-2C13F6777044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4CB8CA-7579-4B59-8EA0-2C13F6777044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D4CB8CA-7579-4B59-8EA0-2C13F6777044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D4CB8CA-7579-4B59-8EA0-2C13F6777044}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F898A109-89FF-4486-B0D0-48576EAF600E}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C00D51BF-4E20-437A-880F-0B3336860265} = {FAB03D6A-C1FC-45A6-8845-A5D31E78A840}
 		{3417C19A-5C5B-4AE7-B9CE-282CC00C447B} = {7A633616-4E07-49C1-BCDD-7B03D3E630CA}
+		{C00D51BF-4E20-437A-880F-0B3336860265} = {FAB03D6A-C1FC-45A6-8845-A5D31E78A840}
 		{282E460F-9ACC-40A1-B841-3223F8C8D9E2} = {7A633616-4E07-49C1-BCDD-7B03D3E630CA}
 		{03BA2B28-45B8-4DF0-A6E9-B3A610642BEE} = {7A633616-4E07-49C1-BCDD-7B03D3E630CA}
 		{AFE54CD8-8D55-4658-AE20-02830799E2B6} = {7A633616-4E07-49C1-BCDD-7B03D3E630CA}
+		{6D4CB8CA-7579-4B59-8EA0-2C13F6777044} = {7A633616-4E07-49C1-BCDD-7B03D3E630CA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F898A109-89FF-4486-B0D0-48576EAF600E}
 	EndGlobalSection
 EndGlobal
