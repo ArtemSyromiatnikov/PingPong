@@ -8,7 +8,7 @@ using PeterLeslieMorris.Blazor.Validation;
 using PingPong.Blazor.Validators;
 using PingPong.Sdk;
 
-namespace PingPong.Blazor
+namespace PingPong.Blazor.ServerApp
 {
     public class Startup
     {
