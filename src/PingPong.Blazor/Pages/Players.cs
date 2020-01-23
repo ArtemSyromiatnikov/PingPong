@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using PingPong.Blazor.Utils;
 using PingPong.Blazor.ViewModels;
 using PingPong.Sdk;
 
@@ -10,21 +9,18 @@ namespace PingPong.Blazor.Pages
 {
     public partial class Players
     {
-        [Inject] private IApiClient        ApiClient         { get; set; }
-        [Inject] private NavigationManager NavigationManager { get; set; }
+        [Inject] private IApiClient ApiClient { get; set; }
 
-        private bool                  IsLoading   { get; set; } = true;
-        public  int                   Page        { get; set; }
-        public  int                   PageSize    { get; set; }
-        public  int                   TotalItems  { get; set; }
+        private bool IsLoading  { get; set; } = true;
+        public  int  Page       { get; set; } = 1;
+        public  int  PageSize   { get; set; } = 10;
+        public  int  TotalItems { get; set; } = 0;
+
         private List<PlayerViewModel> PlayersList { get; set; } = new List<PlayerViewModel>();
 
 
         protected override async Task OnInitializedAsync()
         {
-            PageSize = NavigationManager.ReadQueryStringAsInt("pageSize", 10);
-            Page     = NavigationManager.ReadQueryStringAsInt("page", 1);
-
             await FetchPlayers();
 
             await base.OnInitializedAsync();

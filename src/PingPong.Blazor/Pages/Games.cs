@@ -11,23 +11,35 @@ namespace PingPong.Blazor.Pages
     {
         [Inject] private IApiClient ApiClient { get; set; }
 
+        private bool IsLoading  { get; set; } = true;
+        public  int  Page       { get; set; } = 1;
+        public  int  PageSize   { get; set; } = 10;
+        public  int  TotalItems { get; set; } = 0;
+
         private List<GameViewModel> GamesList { get; set; } = new List<GameViewModel>();
-        private bool                IsLoading { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
-            IsLoading = true;
-            GamesList = await InitializeGames();
-            IsLoading = false;
+            await InitializeGames();
 
             await base.OnInitializedAsync();
         }
 
-        private async Task<List<GameViewModel>> InitializeGames()
+        private async Task InitializeGames()
         {
-            var games = await ApiClient.Games.GetGames(1, 1000);
-            var viewModels = games.Items.Select(g => new GameViewModel(g)).ToList();
-            return viewModels;
+            IsLoading = true;
+
+            var games = await ApiClient.Games.GetGames(Page, PageSize);
+            GamesList  = games.Items.Select(g => new GameViewModel(g)).ToList();
+            TotalItems = games.TotalItems;
+
+            IsLoading = false;
+        }
+
+        private async Task HandlePageChanged(int page)
+        {
+            Page = page;
+            await InitializeGames();
         }
     }
 }

@@ -15,23 +15,32 @@
 }
 else
 {
-    <table class="table table-sm">
-        <thead>
-        <tr>
-            <th>Time</th>
-            <th>Players</th>
-            <th>Score</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var game in GamesList)
-        {
+    if (GamesList.Count == 0)
+    {
+        <div class="py-4 text-center">No games have been found.</div>
+    }
+    else
+    {
+        <table class="table table-sm">
+            <thead>
             <tr>
-                <td>@($"{game.Timestamp:dd MMM HH:mm}")</td>
-                <td><span class="@(game.Player1Result.IsWinner ? "player-winner" : "player-looser")">@game.Player1Result.FullName</span> vs. <span class="@(game.Player2Result.IsWinner ? "player-winner" : "player-looser")">@game.Player2Result.FullName</span></td>
-                <td><span class="@(game.Player1Result.IsWinner ? "score-winner" : "score-looser")">@game.Player1Result.Score</span> : <span class="@(game.Player2Result.IsWinner ? "score-winner" : "score-looser")">@game.Player2Result.Score</span></td>
+                <th>Time</th>
+                <th>Players</th>
+                <th>Score</th>
             </tr>
-        }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach (var game in GamesList)
+            {
+                <tr>
+                    <td>@($"{game.Timestamp:dd MMM yyyy HH:mm}")</td>
+                    <td><span class="@(game.Player1Result.IsWinner ? "player-winner" : "player-looser")">@game.Player1Result.FullName</span> vs. <span class="@(game.Player2Result.IsWinner ? "player-winner" : "player-looser")">@game.Player2Result.FullName</span></td>
+                    <td><span class="@(game.Player1Result.IsWinner ? "score-winner" : "score-looser")">@game.Player1Result.Score</span> : <span class="@(game.Player2Result.IsWinner ? "score-winner" : "score-looser")">@game.Player2Result.Score</span></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <Pagination Page="@Page" PageSize="@PageSize" TotalItems="@TotalItems" OnPageChanged="HandlePageChanged"/>
+    }
 }
