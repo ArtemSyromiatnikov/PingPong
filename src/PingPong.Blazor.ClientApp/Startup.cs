@@ -14,7 +14,8 @@ namespace PingPong.Blazor.ClientApp
             services.AddScoped<HttpClient>(s =>
             {
                 //var client = new HttpClient() { BaseAddress = new System.Uri(Configuration["PingPongApi"]) };
-                var client = new HttpClient() { BaseAddress = new System.Uri("http://localhost:5001/") };
+                //var client = new HttpClient() { BaseAddress = new System.Uri("http://localhost:5001/") };
+                var client = new HttpClient() { BaseAddress = new System.Uri("https://pingpong-api.azurewebsites.net/") };
                 return client;
             });
             services.AddScoped<IApiClient, ApiClient>();

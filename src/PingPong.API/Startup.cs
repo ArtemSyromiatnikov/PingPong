@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PingPong.API.Database;
 using PingPong.API.Services;
+using System.Threading.Tasks;
 
 namespace PingPong.API
 {
@@ -52,7 +53,14 @@ namespace PingPong.API
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints => {
+                endpoints.MapGet("/", del =>
+                {
+                    del.Response.Redirect("/swagger/index.html");
+                    return Task.CompletedTask;
+                });
+                endpoints.MapControllers();
+            });
         }
     }
 }
