@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using PingPong.Blazor.Validators;
 using PingPong.Blazor.ViewModels;
 using PingPong.Sdk;
 using PingPong.Sdk.Models.Players;
@@ -13,21 +15,46 @@ namespace PingPong.Blazor.Pages
         [Inject] private NavigationManager NavigationManager { get; set; }
 
 
-        private AddPlayerViewModel Player   { get; set; } = new AddPlayerViewModel();
-        private bool               IsSaving { get; set; } = false;
-
+        private ServerSideValidator ServerSideValidator { get; set; }
+        private AddPlayerViewModel  Player              { get; set; } = new AddPlayerViewModel();
+        private bool                IsSaving            { get; set; } = false;
+        private bool                HasFailed           { get; set; } = false;
+        private string              ErrorMessage        { get; set; } = String.Empty;
+        
         protected async Task SavePlayer()
         {
+            IsSaving     = true;
+            HasFailed    = false;
+            ErrorMessage = String.Empty;
+            
             var newPlayer = new CreatePlayerRequestDto()
             {
                 FirstName = Player.FirstName,
                 LastName  = Player.LastName,
             };
 
-            IsSaving = true;
-            await ApiClient.Players.CreatePlayer(newPlayer);
+            try
+            {
+                await ApiClient.Players.CreatePlayer(newPlayer);
 
-            NavigationManager.NavigateTo("/players");
+                NavigationManager.NavigateTo("/players");
+            }
+            catch (ApiException ex)
+            {
+                if (ex.Error.IsValidationException)
+                {
+                    ServerSideValidator.DisplayErrors(ex.Error.ValidationErrors);
+                }
+                else
+                {
+                    HasFailed    = true;
+                    ErrorMessage = ex.Error.Message;
+                }
+            }
+            finally
+            {
+                IsSaving = false;
+            }
         }
     }
 }

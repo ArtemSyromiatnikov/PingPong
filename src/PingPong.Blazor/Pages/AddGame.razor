@@ -4,8 +4,12 @@
 
 <EditForm EditContext="@EditContext" class="needs-validation" OnValidSubmit="SaveGame">
     <PeterLeslieMorris.Blazor.Validation.Validate />
-    @* <DataAnnotationsValidator /> *@
-    @* <ValidationSummary /> *@
+    <PingPong.Blazor.Validators.ServerSideValidator @ref="ServerSideValidator" />
+
+    @if (HasFailed)
+    {
+        <div class="alert alert-danger">@ErrorMessage</div>
+    }
 
     <div class="form-row">
         <div class="form-group col-md-6">

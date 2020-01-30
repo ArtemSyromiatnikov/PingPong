@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using PingPong.Blazor.Validators;
 using PingPong.Blazor.ViewModels;
 using PingPong.Sdk;
 using PingPong.Sdk.Models.Games;
@@ -13,13 +15,17 @@ namespace PingPong.Blazor.Pages
     {
         [Inject] private IApiClient ApiClient { get; set; }
 
-
         [Inject] private NavigationManager NavigationManager { get; set; }
+
+
+        private ServerSideValidator ServerSideValidator { get; set; }
 
         private bool                  IsLoading { get; set; } = true;
         private List<PlayerViewModel> Players   { get; set; } = new List<PlayerViewModel>();
         private AddGameViewModel      Game      { get; set; } = new AddGameViewModel();
         private bool                  IsSaving  { get; set; } = false;
+        private bool                  HasFailed { get; set; } = false;
+        private string                ErrorMessage { get; set; } = String.Empty;
 
         private EditContext EditContext { get; set; }
 
@@ -55,6 +61,10 @@ namespace PingPong.Blazor.Pages
 
         private async Task SaveGame()
         {
+            IsSaving = true;
+            HasFailed = false;
+            ErrorMessage = String.Empty;
+
             var newGameDto = new CreateGameRequestDto
             {
                 Player1Id    = int.Parse(Game.Player1Id),
@@ -63,10 +73,28 @@ namespace PingPong.Blazor.Pages
                 Player2Score = Game.Player2Score
             };
 
-            IsSaving = true;
-            await ApiClient.Games.CreateGame(newGameDto);
+            try
+            {
+                await ApiClient.Games.CreateGame(newGameDto);
 
-            NavigationManager.NavigateTo("/games");
+                NavigationManager.NavigateTo("/games");
+            }
+            catch (ApiException ex)
+            {
+                if (ex.Error.IsValidationException)
+                {
+                    ServerSideValidator.DisplayErrors(ex.Error.ValidationErrors);
+                }
+                else
+                {
+                    HasFailed = true;
+                    ErrorMessage = ex.Error.Message;
+                }
+            }
+            finally
+            {
+                IsSaving = false;
+            }
         }
     }
 }
