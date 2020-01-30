@@ -54,7 +54,7 @@ namespace PingPong.Sdk.Helpers
                 catch (JsonException)
                 {
                     return ApiResponse<TResponse>.Error(500,
-                        new ErrorDto("Unable to deserialize response", "DESERIALIZATION_FAILED"));
+                        new ErrorDto(500, "Unable to deserialize response", "DESERIALIZATION_FAILED"));
                 }
             }
 
@@ -66,7 +66,7 @@ namespace PingPong.Sdk.Helpers
             catch (JsonException)
             {
                 return ApiResponse<TResponse>.Error((int) response.StatusCode,
-                    new ErrorDto("Unable to deserialize error response", "DESERIALIZATION_FAILED"));
+                    new ErrorDto((int) response.StatusCode, "Unable to deserialize error response", "DESERIALIZATION_FAILED"));
             }
         }
 

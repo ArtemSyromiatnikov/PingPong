@@ -13,6 +13,11 @@ namespace PingPong.Sdk.Models
         /// Machine-readable, non-localizable error code
         /// </summary>
         public string ErrorCode { get; set; }
+        
+        /// <summary>
+        /// Http Status Code
+        /// </summary>
+        public int StatusCode { get; set; }
 
         /// <summary>
         /// Error messages per validated field, if any
@@ -21,10 +26,11 @@ namespace PingPong.Sdk.Models
 
         public bool IsValidationException => ValidationErrors?.Any() ?? false;
 
-        public ErrorDto(string message, string errorCode)
+        public ErrorDto(int statusCode, string message, string errorCode)
         {
-            Message   = message;
-            ErrorCode = errorCode;
+            StatusCode = statusCode;
+            Message    = message;
+            ErrorCode  = errorCode;
         }
     }
 }

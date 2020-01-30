@@ -12,7 +12,7 @@ namespace PingPong.Sdk
             Error = error;
         }
 
-        public ApiException(string message, string errorCode) : this(new ErrorDto(message, errorCode))
+        public ApiException(int statusCode, string message, string errorCode) : this(new ErrorDto(statusCode, message, errorCode))
         {
         }
 
@@ -21,8 +21,8 @@ namespace PingPong.Sdk
             Error = error;
         }
         
-        public ApiException(string message, string errorCode, Exception innerException) 
-            : this(new ErrorDto(message, errorCode), innerException)
+        public ApiException(int statusCode, string message, string errorCode, Exception innerException) 
+            : this(new ErrorDto(statusCode, message, errorCode), innerException)
         {
         }
     }
