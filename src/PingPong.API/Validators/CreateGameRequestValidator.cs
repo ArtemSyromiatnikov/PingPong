@@ -9,12 +9,10 @@ namespace PingPong.API.Validators
         public CreateGameRequestValidator()
         {
             RuleFor(x => x.Player1Id)
-                .NotEmpty().WithMessage("Select Player 1")
                 .GreaterThan(0).WithMessage("Invalid Player 1 Id");
 
             RuleFor(x => x.Player2Id)
                 .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotEmpty().WithMessage("Select Player 2")
                 .GreaterThan(0).WithMessage("Invalid Player 2 Id")
                 .Must(BeDifferentPlayers).WithMessage("Players must be different");
             

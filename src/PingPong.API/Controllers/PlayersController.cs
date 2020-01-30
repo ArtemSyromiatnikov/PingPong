@@ -28,7 +28,7 @@ namespace PingPong.API.Controllers
         }
 
         [HttpGet("/players/{id}")]
-        public async Task<PlayerInfoDto> Get([FromRoute] int id)
+        public async Task<PlayerInfoDto> GetById([FromRoute] int id)
         {
             var player = await _playersService.GetPlayerById(id);
             return player;
@@ -37,7 +37,6 @@ namespace PingPong.API.Controllers
         [HttpPost]
         public async Task<PlayerInfoDto> Create(CreatePlayerRequestDto request)
         {
-            // TODO: Input validation
             var player = await _playersService.CreatePlayer(request);
             return player;
         }

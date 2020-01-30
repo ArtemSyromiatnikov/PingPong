@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PingPong.API.Database;
 using PingPong.API.Database.Models;
+using PingPong.Sdk;
 using PingPong.Sdk.Models;
 using PingPong.Sdk.Models.Players;
 
@@ -51,6 +51,14 @@ namespace PingPong.API.Services
 
         public async Task<PlayerInfoDto> CreatePlayer(CreatePlayerRequestDto request)
         {
+            bool exists = await _dataContext.Players
+                .Where(p => p.FirstName == request.FirstName &&
+                            p.LastName == request.LastName)
+                .AnyAsync();
+
+            if (exists)
+                throw new ApiException(400, "Player with such name is already registered", "PLAYER_EXISTS");
+            
             var player = new Player
             {
                 FirstName = request.FirstName,
