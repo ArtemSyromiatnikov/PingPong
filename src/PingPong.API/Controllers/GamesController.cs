@@ -23,8 +23,6 @@ namespace PingPong.API.Controllers
         [HttpGet]
         public async Task<Page<GameDto>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            //throw new ApiException(400, "Player with such name already exists.", "PLAYER_EXISTS");
-            
             var games = await _gamesService.GetGames(page, pageSize);
             return games;
         }

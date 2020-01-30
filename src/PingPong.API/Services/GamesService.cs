@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PingPong.API.Database;
+using PingPong.Sdk;
 using PingPong.Sdk.Models;
 using PingPong.Sdk.Models.Games;
 
@@ -53,7 +54,12 @@ namespace PingPong.API.Services
         public async Task<GameDto> CreateGame(CreateGameRequestDto request)
         {
             var player1 = await _dataContext.Players.FirstOrDefaultAsync(p => p.Id == request.Player1Id);
+            if (player1 == null)
+                throw new ApiException(400, "Player 1 was not found", "PLAYER_NOT_FOUND");
+            
             var player2 = await _dataContext.Players.FirstOrDefaultAsync(p => p.Id == request.Player2Id);
+            if (player2 == null)
+                throw new ApiException(400, "Player 2 was not found", "PLAYER_NOT_FOUND");
 
             bool isPlayer1Winner = request.Player1Score > request.Player2Score;
             var game = new Database.Models.Game()
