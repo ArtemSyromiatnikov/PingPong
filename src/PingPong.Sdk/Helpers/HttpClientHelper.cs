@@ -1,8 +1,8 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using PingPong.Sdk.Models;
 
 namespace PingPong.Sdk.Helpers
 {
@@ -23,33 +23,53 @@ namespace PingPong.Sdk.Helpers
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
-        public async Task<TResponse> GetAsync<TResponse>(string url)
+        public async Task<ApiResponse<TResponse>> GetAsync<TResponse>(string url)
         {
             var response = await _httpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                var payloadStream = await response.Content.ReadAsStreamAsync();
-                var result = await JsonSerializer.DeserializeAsync<TResponse>(payloadStream, _jsonOptions);
-                return result;
-            }
-
-            throw new Exception($"Http GET failed with code: {(int) response.StatusCode}");
+            return await ProcessResponse<TResponse>(response);
         }
 
-        public async Task<TResponse> PostAsync<TResponse>(string url, object payload)
+        public async Task<ApiResponse<TResponse>> PostAsync<TResponse>(string url, object payload)
         {
             var requestBody = JsonSerializer.Serialize(payload);
             var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(url, content);
+            return await ProcessResponse<TResponse>(response);
+        }
+
+
+        #region Private helpers
+
+        private async Task<ApiResponse<TResponse>> ProcessResponse<TResponse>(HttpResponseMessage response)
+        {
+            var responseBody = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                var payloadStream = await response.Content.ReadAsStreamAsync();
-                var result = await JsonSerializer.DeserializeAsync<TResponse>(payloadStream, _jsonOptions);
-                return result;
+                try
+                {
+                    var result = JsonSerializer.Deserialize<TResponse>(responseBody, _jsonOptions);
+                    return ApiResponse<TResponse>.Success((int) response.StatusCode, result);
+                }
+                catch (JsonException)
+                {
+                    return ApiResponse<TResponse>.Error(500,
+                        new ErrorDto("Unable to deserialize response", "DESERIALIZATION_FAILED"));
+                }
             }
 
-            throw new Exception($"Http POST failed with code: {(int) response.StatusCode}");
+            try
+            {
+                var error = JsonSerializer.Deserialize<ErrorDto>(responseBody, _jsonOptions);
+                return ApiResponse<TResponse>.Error((int) response.StatusCode, error);
+            }
+            catch (JsonException)
+            {
+                return ApiResponse<TResponse>.Error((int) response.StatusCode,
+                    new ErrorDto("Unable to deserialize error response", "DESERIALIZATION_FAILED"));
+            }
         }
+
+        #endregion
     }
 }
