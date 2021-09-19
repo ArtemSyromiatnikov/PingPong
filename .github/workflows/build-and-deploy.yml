@@ -41,9 +41,13 @@ jobs:
     - name: Build
       run: dotnet build --no-restore -c ${{ env.BUILD_CONFIGURATION }}
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal -c ${{ env.BUILD_CONFIGURATION }}
     - name: dotnet publish
-      run: dotnet publish ./src/PingPong.API -c ${{ env.BUILD_CONFIGURATION }} -o ./publish/PingPong.API
+      run: |
+        dotnet publish ./src/PingPong.API
+          --no-build
+          -c ${{ env.BUILD_CONFIGURATION }}
+          -o ./publish/PingPong.API
       
   publish-api:
     name: Deploy PingPong.API
