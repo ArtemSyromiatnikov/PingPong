@@ -63,13 +63,20 @@ jobs:
 #      with:
 #        app-name: pingpong-api
 #        package: ../packages/PingPong.API/
+    #- name: Deploy static Blazor web site
+    #  uses: azure/CLI@v1
+    #  with:
+    #    inlineScript: |
+    #      az storage blob upload-batch \
+    #        --account-name sapingpong --auth-mode key -d '$web' \
+    #        -s ../packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
     - name: Deploy static Blazor web site
-      uses: azure/CLI@v1
+      #id: upload
+      uses: github-developer/upload-azure-blob@v1
       with:
-        inlineScript: |
-          az storage blob upload-batch \
-            --account-name sapingpong --auth-mode key -d '$web' \
-            -s ../packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
+        account: sapingpong
+        destination: '$web'
+        source: ../packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
     
 
 # c:\Projects\PingPong\publish\blazorclientapp\PingPong.Blazor.ClientApp\dist\
