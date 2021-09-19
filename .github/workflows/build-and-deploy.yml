@@ -44,9 +44,9 @@ jobs:
       run: dotnet test --no-build --verbosity normal -c ${{ env.BUILD_CONFIGURATION }}
     - name: dotnet publish
       run: |
-        dotnet publish ./src/PingPong.API
-          --no-build
-          -c ${{ env.BUILD_CONFIGURATION }}
+        dotnet publish ./src/PingPong.API \
+          --no-build \
+          -c ${{ env.BUILD_CONFIGURATION }} \
           -o ./publish/PingPong.API
       
   publish-api:
