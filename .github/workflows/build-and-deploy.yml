@@ -40,13 +40,13 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       
-#  publish-api:
-#    name: Deploy PingPong.API
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-    #- name: pwd
-    #  run: pwd
+  publish-api:
+    name: Deploy PingPong.API
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: pwd
+      run: pwd
     - name: dotnet publish
       run: dotnet publish ./src/PingPong.API --no-restore --no-build -c Release -o ./publish/PingPong.API
     - name: Azure Login
