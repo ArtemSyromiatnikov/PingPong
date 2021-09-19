@@ -7,25 +7,23 @@
 #     PingPong.Sdk
 #   test
 #     PingPong.UnitTest
-# ---------------------------------- temp folder s below
+# ---------------------------------- temp folders below
 #   packages
 #     PingPong.API
 #     PingPong.Blazor.ClientApp
 
-name: .NET
+name: Deploy full application
 
 on:
   push:
     branches: [ master ]
-  #pull_request:
-    #branches: [ master ]
 
 env:
   BUILD_CONFIGURATION: Release
 
 jobs:
   build:
-    name: Build code
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -34,35 +32,31 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
-    - name: pwd
-      run: pwd
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
+    - name: Build code
       run: dotnet build --no-restore -c ${{ env.BUILD_CONFIGURATION }}
-#    - name: Test
-#      run: dotnet test --no-build --verbosity normal -c ${{ env.BUILD_CONFIGURATION }}
-#    - name: dotnet publish API
-#      run: |
-#        dotnet publish ./src/PingPong.API --no-build -c ${{ env.BUILD_CONFIGURATION }} \
-#          -o ./packages/PingPong.API
-    - name: dotnet publish Blazor.ClientApp
+    - name: Test
+      run: dotnet test --no-build --verbosity normal -c ${{ env.BUILD_CONFIGURATION }}
+    - name: Publish API package
+      run: |
+        dotnet publish ./src/PingPong.API --no-build -c ${{ env.BUILD_CONFIGURATION }} \
+          -o ./packages/PingPong.API
+    - name: Publish Blazor package
       run: |
         dotnet publish ./src/PingPong.Blazor.ClientApp --no-build -c ${{ env.BUILD_CONFIGURATION }} \
           -o ./packages/PingPong.Blazor.ClientApp
-    - run: ls ./packages/PingPong.Blazor.ClientApp/
-    - run: ls ./packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/
-    - run: ls ./packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
       
     - name: Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-#    - name: Deploy PingPong.API to Azure WebApp
-#      uses: Azure/webapps-deploy@v2
-#      with:
-#        app-name: pingpong-api
-#        package: ./packages/PingPong.API/
+
+    - name: Deploy PingPong.API to Azure WebApp
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: pingpong-api
+        package: ./packages/PingPong.API/
 
     - name: Deploy static Blazor web site
       uses: azure/CLI@v1
@@ -72,9 +66,3 @@ jobs:
           az storage blob upload-batch \
             --account-name sapingpong --auth-mode key -d '$web' \
             -s ./packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
-            
-    
-
-# c:\Projects\PingPong\publish\blazorclientapp\PingPong.Blazor.ClientApp\dist\
-# ../packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
-
