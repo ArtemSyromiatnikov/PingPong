@@ -40,21 +40,34 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore -c ${{ env.BUILD_CONFIGURATION }}
-    - name: Test
-      run: dotnet test --no-build --verbosity normal -c ${{ env.BUILD_CONFIGURATION }}
-    - name: dotnet publish
+#    - name: Test
+#      run: dotnet test --no-build --verbosity normal -c ${{ env.BUILD_CONFIGURATION }}
+#    - name: dotnet publish API
+#      run: |
+#        dotnet publish ./src/PingPong.API --no-build -c ${{ env.BUILD_CONFIGURATION }} \
+#          -o ../packages/PingPong.API
+    - name: dotnet publish Blazor.ClientApp
       run: |
-        dotnet publish ./src/PingPong.API --no-build -c ${{ env.BUILD_CONFIGURATION }} \
-          -o ../packages/PingPong.API
-    - run: ls ../packages/PingPong.API
+        dotnet publish ./src/PingPong.Blazor.ClientApp --no-build -c ${{ env.BUILD_CONFIGURATION }} \
+          -o ../packages/PingPong.Blazor.ClientApp
       
     - name: Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    #- run: az webapp list --query "[?state=='Running']"
-    - name: Deploy PingPong.API to Azure WebApp
-      uses: Azure/webapps-deploy@v2
+#    - name: Deploy PingPong.API to Azure WebApp
+#      uses: Azure/webapps-deploy@v2
+#      with:
+#        app-name: pingpong-api
+#        package: ../packages/PingPong.API/
+    - name: Deploy static Blazor web site
+      uses: azure/CLI@v1
       with:
-        app-name: pingpong-api
-        package: ../packages/PingPong.API/
+        inlineScript: |
+          az storage blob upload-batch \
+            --account-name sapingpong --auth-mode key -d '$web' \
+            -s ../packages/PingPong.Blazor.ClientApp\PingPong.Blazor.ClientApp\dist\
+    
+
+# c:\Projects\PingPong\publish\blazorclientapp\PingPong.Blazor.ClientApp\dist\
+# ../packages/PingPong.Blazor.ClientApp\PingPong.Blazor.ClientApp\dist\
