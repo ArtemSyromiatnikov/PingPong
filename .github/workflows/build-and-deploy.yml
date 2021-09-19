@@ -52,7 +52,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - run: ls /home/runner/packages/
+    - run: ls /home/runner/work/PingPong/packages/
     - name: Azure Login
       uses: azure/login@v1
       with:
