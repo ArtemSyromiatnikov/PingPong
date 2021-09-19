@@ -51,6 +51,7 @@ jobs:
         dotnet publish ./src/PingPong.Blazor.ClientApp --no-build -c ${{ env.BUILD_CONFIGURATION }} \
           -o ../packages/PingPong.Blazor.ClientApp
     - run: ls ../packages/PingPong.Blazor.ClientApp/
+    - run: ls ../packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/
       
     - name: Azure Login
       uses: azure/login@v1
@@ -67,8 +68,9 @@ jobs:
         inlineScript: |
           az storage blob upload-batch \
             --account-name sapingpong --auth-mode key -d '$web' \
-            -s ../packages/PingPong.Blazor.ClientApp/dist/
+            -s ../packages/PingPong.Blazor.ClientApp/
     
 
 # c:\Projects\PingPong\publish\blazorclientapp\PingPong.Blazor.ClientApp\dist\
 # ../packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
+
