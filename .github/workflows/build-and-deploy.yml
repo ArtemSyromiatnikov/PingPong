@@ -45,14 +45,14 @@ jobs:
     - name: dotnet publish
       run: |
         dotnet publish ./src/PingPong.API --no-build -c ${{ env.BUILD_CONFIGURATION }} \
-          -o ./publish/PingPong.API
+          -o ../packages/PingPong.API
       
   publish-api:
     name: Deploy PingPong.API
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - run: ls /home/runner/work/PingPong/PingPong/publish/PingPong.API/
+    - run: ls /home/runner/packages/
     - name: Azure Login
       uses: azure/login@v1
       with:
