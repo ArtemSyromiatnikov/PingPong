@@ -48,7 +48,7 @@ jobs:
     - name: pwd
       run: pwd
     - name: dotnet publish
-      run: dotnet publish /src/PingPong.API --no-restore --no-build -c Release -o ~/publish/PingPong.API
+      run: dotnet publish src/PingPong.API --no-restore --no-build -c Release -o publish/PingPong.API
     - name: Azure Login
       uses: azure/login@v1
       with:
