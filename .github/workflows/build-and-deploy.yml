@@ -1,3 +1,17 @@
+# /
+#   src
+#     PingPong.API
+#     PingPong.Blazor
+#     PingPong.Blazor.ClientApp
+#     PingPong.Blazor.ServerApp
+#     PingPong.Sdk
+#   test
+#     PingPong.UnitTest
+# ---------------------------------- temp folder s below
+#   publish
+#     PingPong.API
+#     PingPong.Blazor.ClientApp
+
 name: .NET
 
 on:
@@ -8,7 +22,7 @@ on:
 
 jobs:
   build:
-
+    name: Build code
     runs-on: ubuntu-latest
 
     steps:
@@ -23,3 +37,17 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+  publish-api:
+    name: Deploy PingPong.API
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: dotnet publish
+      run: dotnet publish ./src/PingPong.API --no-restore --no-build -c Release -o ./publish/PingPong.API
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - run: |
+        az webapp list --query "[?state=='Running']"
