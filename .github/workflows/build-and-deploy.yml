@@ -20,6 +20,9 @@ on:
   #pull_request:
     #branches: [ master ]
 
+env:
+  BUILD_CONFIGURATION: Release
+
 jobs:
   build:
     name: Build code
@@ -36,19 +39,18 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c ${{ env.BUILD_CONFIGURATION }}
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: dotnet publish
+      run: dotnet publish ./src/PingPong.API -c ${{ env.BUILD_CONFIGURATION }} -o ./publish/PingPong.API
       
   publish-api:
     name: Deploy PingPong.API
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: pwd
-      run: pwd
-    - name: dotnet publish
-      run: dotnet publish ./src/PingPong.API --no-restore --no-build -c Release -o ./publish/PingPong.API
+    
     - name: Azure Login
       uses: azure/login@v1
       with:
