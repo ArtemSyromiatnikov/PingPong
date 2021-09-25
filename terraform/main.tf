@@ -16,3 +16,8 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+resource "azurerm_resource_group" "ping-pong" {
+  name      = "ping-pong"
+  location  = "North Europe"
+}
