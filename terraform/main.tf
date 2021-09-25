@@ -58,3 +58,17 @@ resource "azurerm_app_service" "pingpong-api" {
   resource_group_name = azurerm_resource_group.ping-pong.name
   location            = azurerm_resource_group.ping-pong.location
 }
+
+resource "azurerm_storage_account" "sapingpong" {
+  name                = "sapingpong"
+  resource_group_name = azurerm_resource_group.ping-pong.name
+  location            = azurerm_resource_group.ping-pong.location
+  account_tier        = "Standard"
+  account_kind        = "StorageV2"
+  account_replication_type  = "LRS"
+  min_tls_version           = "TLS1_2"
+  allow_blob_public_access  = true
+  static_website {
+    index_document = "index.html"
+  }
+}
