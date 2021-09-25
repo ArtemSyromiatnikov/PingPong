@@ -40,3 +40,21 @@ resource "azurerm_mssql_database" "db-pingpong" {
   storage_account_type = "LRS"
 }
 
+
+resource "azurerm_app_service_plan" "asp-pingpong" {
+  name                = "asp-pingpong"
+  resource_group_name = azurerm_resource_group.ping-pong.name
+  location            = azurerm_resource_group.ping-pong.location
+  kind                = "App"
+  sku {
+    tier = "Free"
+    size = "F1"
+  }
+}
+
+resource "azurerm_app_service" "pingpong-api" {
+  name                = "pingpong-api"
+  app_service_plan_id = azurerm_app_service_plan.asp-pingpong.id
+  resource_group_name = azurerm_resource_group.ping-pong.name
+  location            = azurerm_resource_group.ping-pong.location
+}
