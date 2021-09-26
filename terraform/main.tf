@@ -1,4 +1,4 @@
-// General config
+// General config =============================================================
 terraform {
   required_providers {
     azurerm = {
@@ -18,18 +18,18 @@ provider "azurerm" {
   features {}
 }
 
-// Variables and local
+// Variables and locals =======================================================
 locals {
-  db_server_id = "/subscriptions/c4859b0f-5443-4e12-8915-bef7d646c730/resourceGroups/ping-pong/providers/Microsoft.Sql/servers/dbs-pingpong"
+  dbs_pingpong_admin_name = "lord-admin"
 }
 
-// Data sources
-data "azurerm_key_vault_secret" "dbs-server-password" {
+// Data sources ===============================================================
+data "azurerm_key_vault_secret" "dbs_pingpong_password" {
   key_vault_id = "/subscriptions/c4859b0f-5443-4e12-8915-bef7d646c730/resourceGroups/ping-pong-infrastructure/providers/Microsoft.KeyVault/vaults/kv-pp-infrastructure"
   name = "dbs-admin-password"
 }
 
-
+// Resources ==================================================================
 resource "azurerm_resource_group" "ping-pong" {
   name      = "ping-pong"
   location  = "North Europe"
@@ -41,15 +41,15 @@ resource "azurerm_mssql_server" "dbs-pingpong" {
   resource_group_name = azurerm_resource_group.ping-pong.name
   location            = azurerm_resource_group.ping-pong.location
   version             = "12.0"
-  administrator_login = "lord-admin"
-  administrator_login_password = data.azurerm_key_vault_secret.dbs-server-password.value
+  administrator_login = local.dbs_pingpong_admin_name
+  administrator_login_password = data.azurerm_key_vault_secret.dbs_pingpong_password.value
 
   minimum_tls_version = "1.2"
 }
 
 resource "azurerm_mssql_database" "db-pingpong" {
   name = "db-pingpong"
-  server_id = local.db_server_id
+  server_id = azurerm_mssql_server.dbs-pingpong.id
   storage_account_type = "LRS"
 }
 
@@ -71,9 +71,9 @@ resource "azurerm_app_service" "pingpong-api" {
   resource_group_name = azurerm_resource_group.ping-pong.name
   location            = azurerm_resource_group.ping-pong.location
 
-  //app_settings {
-    //"Database" = azurerm_mssql_database.db-pingpong.
-  //}
+  app_settings = {
+    "Database" = "Server=tcp:${azurerm_mssql_server.dbs-pingpong.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.db-pingpong.name };Persist Security Info=False;User ID=${local.dbs_pingpong_admin_name};Password=${data.azurerm_key_vault_secret.dbs_pingpong_password.value};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
 }
 
 resource "azurerm_storage_account" "sapingpong" {
