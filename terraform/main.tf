@@ -1,3 +1,7 @@
+locals {
+  db_server_id = "/subscriptions/c4859b0f-5443-4e12-8915-bef7d646c730/resourceGroups/ping-pong/providers/Microsoft.Sql/servers/dbs-pingpong"
+}
+
 terraform {
   required_providers {
     azurerm = {
@@ -36,7 +40,7 @@ resource "azurerm_resource_group" "ping-pong" {
 
 resource "azurerm_mssql_database" "db-pingpong" {
   name = "db-pingpong"
-  server_id = "/subscriptions/c4859b0f-5443-4e12-8915-bef7d646c730/resourceGroups/ping-pong/providers/Microsoft.Sql/servers/dbs-pingpong" # for now
+  server_id = local.db_server_id
   storage_account_type = "LRS"
 }
 
