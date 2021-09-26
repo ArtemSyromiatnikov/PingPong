@@ -1,0 +1,68 @@
+# /
+#   src
+#     PingPong.API
+#     PingPong.Blazor
+#     PingPong.Blazor.ClientApp
+#     PingPong.Blazor.ServerApp
+#     PingPong.Sdk
+#   test
+#     PingPong.UnitTest
+# ---------------------------------- temp folders below
+#   packages
+#     PingPong.API
+#     PingPong.Blazor.ClientApp
+
+name: Deploy full application
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build code
+      run: dotnet build --no-restore -c ${{ env.BUILD_CONFIGURATION }}
+    - name: Test
+      run: dotnet test --no-build --verbosity normal -c ${{ env.BUILD_CONFIGURATION }}
+    - name: Publish API package
+      run: |
+        dotnet publish ./src/PingPong.API --no-build -c ${{ env.BUILD_CONFIGURATION }} \
+          -o ./packages/PingPong.API
+    - name: Publish Blazor package
+      run: |
+        dotnet publish ./src/PingPong.Blazor.ClientApp --no-build -c ${{ env.BUILD_CONFIGURATION }} \
+          -o ./packages/PingPong.Blazor.ClientApp
+      
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy PingPong.API to Azure WebApp
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: pingpong-api
+        package: ./packages/PingPong.API/
+
+    - name: Deploy static Blazor web site
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.0.72
+        inlineScript: |
+          az storage blob upload-batch \
+            --account-name sapingpong --auth-mode key -d '$web' \
+            -s ./packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
