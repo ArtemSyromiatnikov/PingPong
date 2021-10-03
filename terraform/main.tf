@@ -47,6 +47,15 @@ resource "azurerm_mssql_server" "dbs-pingpong" {
   minimum_tls_version = "1.2"
 }
 
+# Sets "Allow Azure services and resources to access this server" to TRUE
+resource "azurerm_mssql_firewall_rule" "dbs-pingpong-allowazaccess" {
+  name = "dbs-pingpong-allowazaccess"
+  server_id = azurerm_mssql_server.dbs-pingpong.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address = "0.0.0.0"
+}
+
+
 resource "azurerm_mssql_database" "db-pingpong" {
   name = "db-pingpong"
   server_id = azurerm_mssql_server.dbs-pingpong.id
@@ -74,6 +83,11 @@ resource "azurerm_app_service" "pingpong-api" {
   app_service_plan_id = azurerm_app_service_plan.asp-pingpong.id
   resource_group_name = azurerm_resource_group.pingpong.name
   location            = azurerm_resource_group.pingpong.location
+  
+  site_config {
+    http2_enabled             = true
+    use_32_bit_worker_process = true
+  }
 
   app_settings = {
     "Database" = "Server=tcp:${azurerm_mssql_server.dbs-pingpong.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.db-pingpong.name };Persist Security Info=False;User ID=${local.dbs_pingpong_admin_name};Password=${data.azurerm_key_vault_secret.dbs_pingpong_password.value};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
