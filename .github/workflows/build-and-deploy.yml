@@ -14,9 +14,9 @@
 
 name: Deploy full application
 
-on:
-  push:
-    branches: [ master ]
+on: workflow_dispatch
+#  push:
+#    branches: [ master ]
 
 env:
   BUILD_CONFIGURATION: Release
