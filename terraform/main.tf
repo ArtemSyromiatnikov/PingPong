@@ -107,3 +107,11 @@ resource "azurerm_storage_account" "sapingpong" {
     index_document = "index.html"
   }
 }
+
+# == Output intereseting URLs =================================================
+output "pingpong_api_url" {
+  value = azurerm_app_service.pingpong-api.default_site_hostname
+}
+output "pingpong_client_url" {
+  value = azurerm_storage_account.sapingpong.primary_web_endpoint
+}
