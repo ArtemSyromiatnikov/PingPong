@@ -30,7 +30,7 @@ data "azurerm_key_vault_secret" "dbs_pingpong_password" {
 }
 
 // Resources ==================================================================
-resource "azurerm_resource_group" "ping-pong" {
+resource "azurerm_resource_group" "pingpong" {
   name      = "ping-pong"
   location  = "North Europe"
 }
@@ -38,8 +38,8 @@ resource "azurerm_resource_group" "ping-pong" {
 # azure will keep 'modifying' DB server because it thinks that password was modified (even though it wasn't)
 resource "azurerm_mssql_server" "dbs-pingpong" {
   name                = "dbs-pingpong"
-  resource_group_name = azurerm_resource_group.ping-pong.name
-  location            = azurerm_resource_group.ping-pong.location
+  resource_group_name = azurerm_resource_group.pingpong.name
+  location            = azurerm_resource_group.pingpong.location
   version             = "12.0"
   administrator_login = local.dbs_pingpong_admin_name
   administrator_login_password = data.azurerm_key_vault_secret.dbs_pingpong_password.value
@@ -51,13 +51,14 @@ resource "azurerm_mssql_database" "db-pingpong" {
   name = "db-pingpong"
   server_id = azurerm_mssql_server.dbs-pingpong.id
   storage_account_type = "LRS"
+  sku_name = "GP_S_Gen5_1"
 }
 
 
 resource "azurerm_app_service_plan" "asp-pingpong" {
   name                = "asp-pingpong"
-  resource_group_name = azurerm_resource_group.ping-pong.name
-  location            = azurerm_resource_group.ping-pong.location
+  resource_group_name = azurerm_resource_group.pingpong.name
+  location            = azurerm_resource_group.pingpong.location
   kind                = "App"
   sku {
     tier = "Free"
@@ -68,8 +69,8 @@ resource "azurerm_app_service_plan" "asp-pingpong" {
 resource "azurerm_app_service" "pingpong-api" {
   name                = "pingpong-api"
   app_service_plan_id = azurerm_app_service_plan.asp-pingpong.id
-  resource_group_name = azurerm_resource_group.ping-pong.name
-  location            = azurerm_resource_group.ping-pong.location
+  resource_group_name = azurerm_resource_group.pingpong.name
+  location            = azurerm_resource_group.pingpong.location
 
   app_settings = {
     "Database" = "Server=tcp:${azurerm_mssql_server.dbs-pingpong.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.db-pingpong.name };Persist Security Info=False;User ID=${local.dbs_pingpong_admin_name};Password=${data.azurerm_key_vault_secret.dbs_pingpong_password.value};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
@@ -78,8 +79,8 @@ resource "azurerm_app_service" "pingpong-api" {
 
 resource "azurerm_storage_account" "sapingpong" {
   name                = "sapingpong"
-  resource_group_name = azurerm_resource_group.ping-pong.name
-  location            = azurerm_resource_group.ping-pong.location
+  resource_group_name = azurerm_resource_group.pingpong.name
+  location            = azurerm_resource_group.pingpong.location
   account_tier        = "Standard"
   account_kind        = "StorageV2"
   account_replication_type  = "LRS"
