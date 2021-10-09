@@ -62,7 +62,7 @@ jobs:
     - name: Deploy PingPong.API to Azure WebApp
       uses: Azure/webapps-deploy@v2
       with:
-        app-name: pingpong-api-${{github.event.input.env}}
+        app-name: pingpong-api-${{github.event.inputs.env}}
         package: ./packages/PingPong.API/
 
     - name: Deploy static Blazor web site
@@ -71,5 +71,5 @@ jobs:
         azcliversion: 2.0.72
         inlineScript: |
           az storage blob upload-batch \
-            --account-name sapingpong${{github.event.input.env}} --auth-mode key -d '$web' \
+            --account-name sapingpong${{github.event.inputs.env}} --auth-mode key -d '$web' \
             -s ./packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
