@@ -80,4 +80,4 @@ jobs:
         inlineScript: |
           az storage blob upload-batch \
             --account-name sapingpong${{github.event.inputs.env}} --auth-mode key -d '$web' \
-            -s ./packages/PingPong.Blazor.ClientApp/
+            -s ./packages/PingPong.Blazor.ClientApp/wwwroot
