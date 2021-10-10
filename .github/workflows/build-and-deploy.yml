@@ -54,10 +54,12 @@ jobs:
           -o ./packages/PingPong.Blazor.ClientApp
     - name: Appsettings for Blazor WebAssembly app
       run: |
-        mv ./packages/PingPong.Blazor.ClientApp/appsettings.${{github.event.inputs.env}}.json appsettings.json
-        mv ./packages/PingPong.Blazor.ClientApp/appsettings.${{github.event.inputs.env}}.json.br appsettings.json.br
-        mv ./packages/PingPong.Blazor.ClientApp/appsettings.${{github.event.inputs.env}}.json.gz appsettings.json.gz
-        rm ./packages/PingPong.Blazor.ClientApp/appsettings.*.json*
+        ls ./packages/PingPong.Blazor.ClientApp/
+        mv appsettings.${{github.event.inputs.env}}.json appsettings.json
+        mv appsettings.${{github.event.inputs.env}}.json.br appsettings.json.br
+        mv appsettings.${{github.event.inputs.env}}.json.gz appsettings.json.gz
+        rm appsettings.*.json*
+        ls ../..
       
     - name: Azure Login
       uses: azure/login@v1
