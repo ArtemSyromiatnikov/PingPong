@@ -14,7 +14,13 @@
 
 name: Deploy full application
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'Environment'
+        required: true
+        default: 'dev'      # Supported values: [dev, test, prod]
 #  push:
 #    branches: [ master ]
 
@@ -46,6 +52,12 @@ jobs:
       run: |
         dotnet publish ./src/PingPong.Blazor.ClientApp --no-build -c ${{ env.BUILD_CONFIGURATION }} \
           -o ./packages/PingPong.Blazor.ClientApp
+    - name: Appsettings for Blazor WebAssembly app
+      run: |
+        mv appsettings.${{github.event.inputs.env}}.json appsettings.json
+        mv appsettings.${{github.event.inputs.env}}.json.br appsettings.json.br
+        mv appsettings.${{github.event.inputs.env}}.json.gz appsettings.json.gz
+        rm appsettings.*.json*
       
     - name: Azure Login
       uses: azure/login@v1
@@ -55,7 +67,7 @@ jobs:
     - name: Deploy PingPong.API to Azure WebApp
       uses: Azure/webapps-deploy@v2
       with:
-        app-name: pingpong-api
+        app-name: pingpong-api-${{github.event.inputs.env}}
         package: ./packages/PingPong.API/
 
     - name: Deploy static Blazor web site
@@ -64,5 +76,5 @@ jobs:
         azcliversion: 2.0.72
         inlineScript: |
           az storage blob upload-batch \
-            --account-name sapingpong --auth-mode key -d '$web' \
-            -s ./packages/PingPong.Blazor.ClientApp/PingPong.Blazor.ClientApp/dist/
+            --account-name sapingpong${{github.event.inputs.env}} --auth-mode key -d '$web' \
+            -s ./packages/PingPong.Blazor.ClientApp/
