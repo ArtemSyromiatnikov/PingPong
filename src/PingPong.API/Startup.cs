@@ -33,6 +33,7 @@ namespace PingPong.API
             services.AddScoped<IPlayersService, PlayersService>();
             services.AddScoped<IGamesService, GamesService>();
 
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddCors(options =>
                 options.AddDefaultPolicy(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
@@ -63,7 +64,7 @@ namespace PingPong.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
