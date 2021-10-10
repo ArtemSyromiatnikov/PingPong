@@ -10,7 +10,7 @@ terraform {
     resource_group_name   = "ping-pong-infrastructure"
     storage_account_name  = "sapingpongterraform"
     container_name        = "terraform-state"
-    key                   = "prod.terraform.tfstate"
+    key                   = "terraform.tfstate"
   }
 }
 
@@ -21,6 +21,12 @@ provider "azurerm" {
 // Variables and locals =======================================================
 locals {
   dbs_pingpong_admin_name = "lord-admin"
+  workspace_to_env = {
+    default = "dev",
+    test = "test",
+    prod = "prod"
+  }
+  env = local.workspace_to_env[terraform.workspace]
 }
 
 // Data sources ===============================================================
@@ -31,13 +37,13 @@ data "azurerm_key_vault_secret" "dbs_pingpong_password" {
 
 // Resources ==================================================================
 resource "azurerm_resource_group" "pingpong" {
-  name      = "ping-pong"
+  name      = "ping-pong-${local.env}"
   location  = "North Europe"
 }
 
 # azure will keep 'modifying' DB server because it thinks that password was modified (even though it wasn't)
 resource "azurerm_mssql_server" "dbs-pingpong" {
-  name                = "dbs-pingpong"
+  name                = "dbs-pingpong-${local.env}"
   resource_group_name = azurerm_resource_group.pingpong.name
   location            = azurerm_resource_group.pingpong.location
   version             = "12.0"
@@ -49,7 +55,7 @@ resource "azurerm_mssql_server" "dbs-pingpong" {
 
 # Sets "Allow Azure services and resources to access this server" to TRUE
 resource "azurerm_mssql_firewall_rule" "dbs-pingpong-allowazaccess" {
-  name = "dbs-pingpong-allowazaccess"
+  name = "dbs-pingpong-${local.env}-allowazaccess"
   server_id = azurerm_mssql_server.dbs-pingpong.id
   start_ip_address = "0.0.0.0"
   end_ip_address = "0.0.0.0"
@@ -57,7 +63,7 @@ resource "azurerm_mssql_firewall_rule" "dbs-pingpong-allowazaccess" {
 
 
 resource "azurerm_mssql_database" "db-pingpong" {
-  name = "db-pingpong"
+  name = "db-pingpong-${local.env}"
   server_id = azurerm_mssql_server.dbs-pingpong.id
   storage_account_type = "LRS"
   sku_name = "GP_S_Gen5_1"
@@ -68,7 +74,7 @@ resource "azurerm_mssql_database" "db-pingpong" {
 
 
 resource "azurerm_app_service_plan" "asp-pingpong" {
-  name                = "asp-pingpong"
+  name                = "asp-pingpong-${local.env}"
   resource_group_name = azurerm_resource_group.pingpong.name
   location            = azurerm_resource_group.pingpong.location
   kind                = "App"
@@ -79,7 +85,7 @@ resource "azurerm_app_service_plan" "asp-pingpong" {
 }
 
 resource "azurerm_app_service" "pingpong-api" {
-  name                = "pingpong-api"
+  name                = "pingpong-api-${local.env}"
   app_service_plan_id = azurerm_app_service_plan.asp-pingpong.id
   resource_group_name = azurerm_resource_group.pingpong.name
   location            = azurerm_resource_group.pingpong.location
@@ -95,7 +101,7 @@ resource "azurerm_app_service" "pingpong-api" {
 }
 
 resource "azurerm_storage_account" "sapingpong" {
-  name                = "sapingpong"
+  name                = "sapingpong${local.env}"
   resource_group_name = azurerm_resource_group.pingpong.name
   location            = azurerm_resource_group.pingpong.location
   account_tier        = "Standard"
