@@ -12,7 +12,7 @@ namespace PingPong.API.Validators
                 .GreaterThan(0).WithMessage("Invalid Player 1 Id");
 
             RuleFor(x => x.Player2Id)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .GreaterThan(0).WithMessage("Invalid Player 2 Id")
                 .Must(BeDifferentPlayers).WithMessage("Players must be different");
             
@@ -21,7 +21,7 @@ namespace PingPong.API.Validators
                 .LessThanOrEqualTo(100).WithMessage("I highly doubt you've reached score that high");
 
             RuleFor(x => x.Player2Score)
-                .Cascade(CascadeMode.StopOnFirstFailure)
+                .Cascade(CascadeMode.Stop)
                 .GreaterThanOrEqualTo(0).WithMessage("Score can't be lower than zero")
                 .LessThanOrEqualTo(100).WithMessage("I highly doubt you've reached score that high")
                 .Must(BeAValidScore).WithMessage("Game cannot end with such score");
@@ -63,7 +63,7 @@ namespace PingPong.API.Validators
             bool isValid = (higherScore, lowerScore) switch
             {
                 (11, int lower)                             => lower >=0 && lower <= 9,
-                var (higher, lower) when higher > 11 => lower == higher - 2,
+                var (higher, lower) when higher > 11        => lower == higher - 2,
                 _                                           => false
             };
             
