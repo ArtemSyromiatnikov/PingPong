@@ -1,0 +1,36 @@
+name: Deploy Azure Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'Environment'
+        required: true
+        default: 'dev'      # Supported values: [dev, test, prod]
+
+env:
+  TF_IN_AUTOMATION: true
+
+jobs:
+  terraform:
+    name: Run terraform
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.x
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    // TODO: For Production - make USER review and approve the Plan!
+    - name: Run terrafrom
+      run: |
+        cd ../terraform
+        terraform init -input=false    
+        terraform workspace select ${{github.events.input.env}}
+        terraform apply -input=false -auto-approve
+      
