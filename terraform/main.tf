@@ -23,8 +23,9 @@ locals {
   dbs_pingpong_admin_name = "lord-admin"
   workspace_to_env = {
     default = "dev",
-    test = "test",
-    prod = "prod"
+    dev     = "dev",
+    test    = "test",
+    prod    = "prod"
   }
   env = local.workspace_to_env[terraform.workspace]
 }
