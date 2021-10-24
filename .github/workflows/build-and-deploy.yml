@@ -12,7 +12,7 @@
 #     PingPong.API
 #     PingPong.Blazor.ClientApp
 
-name: Deploy full application
+name: Build and Deploy application
 
 on:
   workflow_dispatch:
@@ -76,7 +76,7 @@ jobs:
         
 # ------------------------------
   deploy-api:
-    name: Publish PingPong API
+    name: Deploy PingPong API
     runs-on: ubuntu-latest
     needs: build-artifacts
     steps:
@@ -99,7 +99,7 @@ jobs:
         
 # ------------------------------
   deploy-blazor:
-    name: Publish Blazor API
+    name: Deploy Blazor app
     runs-on: ubuntu-latest
     needs: build-artifacts
     steps:
