@@ -51,12 +51,11 @@ jobs:
         terraform init -input=false    
         terraform workspace select prod
         terraform plan -out tfplan
-    # We upload entire 'terraform' folder with initial TF configuration + newly generated Plan - it's everything we need to run Terraform Apply on the next step
     - name: Upload 'tfplan' artifact
       uses: actions/upload-artifact@v2.2.4
       with:
         name: tfplan
-        path: ./terraform/
+        path: ./terraform/tfplan
         if-no-files-found: error
 
   tf-prod-apply:
@@ -66,11 +65,13 @@ jobs:
     needs: [tf-prod-plan]
     
     steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
     - name: Download 'tfplan'
       uses: actions/download-artifact@v2.0.10
       with:
         name: tfplan
-        path: ./terraform
+        path: ./terraform/tfplan
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
       with:
@@ -78,5 +79,6 @@ jobs:
     - name: Terraform Apply
       run: |
         cd ./terraform
+        terraform init -input=false
         terraform workspace select prod
         terraform apply tfplan
