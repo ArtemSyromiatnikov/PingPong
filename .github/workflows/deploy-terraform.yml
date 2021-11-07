@@ -78,6 +78,5 @@ jobs:
     - name: Terraform Apply
       run: |
         cd ./terraform
-        terraform init -input=false    
         terraform workspace select prod
         terraform apply tfplan
