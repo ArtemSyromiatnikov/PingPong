@@ -34,7 +34,7 @@ jobs:
 #        terraform apply -input=false -auto-approve
       
   tf-prod-plan:
-    name: Production | TF Plan
+    name: Production | Terraform Plan
     runs-on: ubuntu-latest
     environment: pre-production
 
@@ -51,11 +51,12 @@ jobs:
         terraform init -input=false    
         terraform workspace select prod
         terraform plan -out tfplan
+    # We upload entire 'terraform' folder with initial TF configuration + newly generated Plan - it's everything we need to run Terraform Apply on the next step
     - name: Upload 'tfplan' artifact
       uses: actions/upload-artifact@v2.2.4
       with:
         name: tfplan
-        path: ./terraform/tfplan
+        path: ./terraform/
         if-no-files-found: error
 
   tf-prod-apply:
@@ -69,13 +70,14 @@ jobs:
       uses: actions/download-artifact@v2.0.10
       with:
         name: tfplan
-        path: ./tfplan
+        path: ./terraform
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.0.x
     - name: Terraform Apply
       run: |
+        cd ./terraform
         terraform init -input=false    
         terraform workspace select prod
         terraform apply tfplan
