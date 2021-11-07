@@ -1,12 +1,11 @@
 name: Deploy Azure Infrastructure
 
-on:
-  workflow_dispatch:
-    inputs:
-      env:
-        description: 'Environment'
-        required: true
-        default: 'dev'      # Supported values: [dev, test, prod]
+on:  workflow_dispatch
+#    inputs:
+#      env:
+#        description: 'Environment'
+#        required: true
+#        default: 'dev'      # Supported values: [dev, test, prod]
 
 env:
   TF_IN_AUTOMATION: true
@@ -16,25 +15,69 @@ env:
   ARM_TENANT_ID: ${{ secrets.TF_ARM_TENANT_ID }}
 
 jobs:
-  terraform:
-    name: Run terraform
+  tf-dev-apply:
+    name: Deploy to Development
     runs-on: ubuntu-latest
+    environment: development
 
     steps:
     - uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.0.x
-#    - name: Azure Login
-#      uses: azure/login@v1
-#      with:
-#        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     # TODO: For Production - make USER review and approve the Plan!
     - name: Run terrafrom
       run: |
         cd ./terraform
         terraform init -input=false    
-        terraform workspace select ${{github.event.inputs.env}}
+        terraform workspace select dev
         terraform apply -input=false -auto-approve
       
+  tf-prod-plan:
+    name: Production | TF Plan
+    runs-on: ubuntu-latest
+    environment: pre-production
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.x
+    - name: Run terrafrom plan
+      run: |
+        cd ./terraform
+        terraform init -input=false    
+        terraform workspace select prod
+        terraform plan -out tfplan
+    - name: Upload 'tfplan' artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: tfplan
+        path: tfplan
+        if-no-files-found: error        
+
+  tf-prod-apply:
+    name: Production | Terraform Apply
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [tf-prod-plan]
+    
+    steps:
+    - name: Downloaf 'tfplan'
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: tfplan
+        path: tfplan
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.x
+    - name: Tterrafrom Apply
+      run: |
+        cd ./terraform
+        terraform init -input=false    
+        terraform workspace select prod
+        terraform apply tfplan
