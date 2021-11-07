@@ -71,7 +71,7 @@ jobs:
       uses: actions/download-artifact@v2.0.10
       with:
         name: tfplan
-        path: ./terraform/tfplan
+        path: ./terraform/
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
       with:
@@ -79,6 +79,7 @@ jobs:
     - name: Terraform Apply
       run: |
         cd ./terraform
+        ls
         terraform init -input=false
         terraform workspace select prod
         terraform apply tfplan
