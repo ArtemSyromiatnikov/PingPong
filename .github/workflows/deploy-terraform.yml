@@ -15,24 +15,23 @@ env:
   ARM_TENANT_ID: ${{ secrets.TF_ARM_TENANT_ID }}
 
 jobs:
-  tf-dev-apply:
-    name: Deploy to Development
-    runs-on: ubuntu-latest
-    environment: development
-
-    steps:
-    - uses: actions/checkout@v2
-    - uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.0.x
-
-    # TODO: For Production - make USER review and approve the Plan!
-    - name: Run terrafrom
-      run: |
-        cd ./terraform
-        terraform init -input=false    
-        terraform workspace select dev
-        terraform apply -input=false -auto-approve
+#  tf-dev-apply:
+#    name: Deploy to Development
+#    runs-on: ubuntu-latest
+#    environment: development
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#    - uses: hashicorp/setup-terraform@v1
+#      with:
+#        terraform_version: 1.0.x
+#
+#    - name: Run terrafrom
+#      run: |
+#        cd ./terraform
+#        terraform init -input=false    
+#        terraform workspace select dev
+#        terraform apply -input=false -auto-approve
       
   tf-prod-plan:
     name: Production | TF Plan
@@ -56,8 +55,8 @@ jobs:
       uses: actions/upload-artifact@v2.2.4
       with:
         name: tfplan
-        path: tfplan
-        if-no-files-found: error        
+        path: ./terraform/tfplan
+        if-no-files-found: error
 
   tf-prod-apply:
     name: Production | Terraform Apply
@@ -66,18 +65,17 @@ jobs:
     needs: [tf-prod-plan]
     
     steps:
-    - name: Downloaf 'tfplan'
+    - name: Download 'tfplan'
       uses: actions/download-artifact@v2.0.10
       with:
         name: tfplan
-        path: tfplan
+        path: ./tfplan
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.0.x
-    - name: Tterrafrom Apply
+    - name: Terraform Apply
       run: |
-        cd ./terraform
         terraform init -input=false    
         terraform workspace select prod
         terraform apply tfplan
